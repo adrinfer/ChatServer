@@ -69,7 +69,7 @@
             </HBox>
          </bottom>
          <top>
-            <HBox prefHeight="9.0" prefWidth="872.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
+            <HBox fx:id="bottomStatusPane" prefHeight="9.0" prefWidth="872.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
          </top>
       </BorderPane>
    </bottom>

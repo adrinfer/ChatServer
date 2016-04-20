@@ -7,21 +7,23 @@ package es.chatserver.controllers.viewcontrollers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  *
@@ -37,6 +39,9 @@ public class ServerGuiController implements Initializable {
     
     @FXML
     private BorderPane bottomPane;
+    
+    @FXML
+    private HBox bottomStatusPane;
     
     @FXML
     private VBox leftPane;
@@ -63,30 +68,34 @@ public class ServerGuiController implements Initializable {
     @FXML
     private ToggleButton butStartStop;
     
-    
-    
+    private String server = null;
     
     
     private void startStopButton()
     {
                 
-//        if(server != null)
-//        {
-//            server.stop();
-//            server = null;
-//            butStartStop.setText("Start");
-//            textArea.setText(textArea.getText() + "\n" + "*** Server: Stop");
-//            lblStatus.setText("Server: Parado");
-//            
-//            
-//        }
-//        else
-//        {
-//           
-//            butStartStop.setText("Stop");
-//            textArea.setText(textArea.getText() + "\n" + "*** Server: Start");
-//            lblStatus.setText("Server: Iniciado");
-//        }
+        if(server != null)
+        {
+            //server.stop();
+            server = null;
+            butStartStop.setText("Start");
+            textArea.setText(textArea.getText() + "\n" + "*** Server: Stop");
+            lblStatus.setText("Server: Parado");
+            topPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#D2090C"), CornerRadii.EMPTY, Insets.EMPTY)));
+            bottomStatusPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#D2090C"), CornerRadii.EMPTY, Insets.EMPTY)));
+            
+            
+        }
+        else
+        {
+           server = "A";
+            butStartStop.setText("Stop");
+            textArea.setText(textArea.getText() + "\n" + "*** Server: Start");
+            lblStatus.setText("Server: Iniciado");
+            topPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#017810"), CornerRadii.EMPTY, Insets.EMPTY)));
+            bottomStatusPane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#017810"), CornerRadii.EMPTY, Insets.EMPTY)));
+            
+        }
     }
     
 
@@ -95,9 +104,9 @@ public class ServerGuiController implements Initializable {
     {
         
         //leftPane - widthProperty
-        leftPane.minWidthProperty().bind(borderPane.widthProperty().multiply(0.2).subtract(100));
-        leftPane.maxWidthProperty().bind(borderPane.widthProperty().multiply(0.2).subtract(100));
-        leftPane.prefWidthProperty().bind(borderPane.widthProperty().multiply(0.2).subtract(100));
+        leftPane.minWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
+        leftPane.maxWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
+        leftPane.prefWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
         
         
         //leftPane - heightProperty

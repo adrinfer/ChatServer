@@ -8,11 +8,9 @@ package chatserver;
 import java.beans.PersistenceDelegate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 /**
@@ -41,7 +39,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/es/chatserver/views/FXMLDocument.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));
         
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/scrollBar.css").toExternalForm());
