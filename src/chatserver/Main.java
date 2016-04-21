@@ -43,7 +43,7 @@ public class Main extends Application {
         
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/scrollBar.css").toExternalForm());
-
+        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/mainBorderPaneBorders.css").toExternalForm());
         stage.setTitle("AAAA");
         //stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);

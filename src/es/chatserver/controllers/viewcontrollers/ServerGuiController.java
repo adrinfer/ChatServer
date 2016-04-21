@@ -18,6 +18,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
@@ -110,9 +111,9 @@ public class ServerGuiController implements Initializable {
         
         
         //leftPane - heightProperty
-        leftPane.minHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        leftPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        leftPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        leftPane.minHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        leftPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        leftPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
         
         
         //rightPane - width binding
@@ -149,6 +150,8 @@ public class ServerGuiController implements Initializable {
     private void init()
     {
         
+        borderPane.getStyleClass().add("borde");
+        
         textArea.setEditable(false);
         setBindings();
 
@@ -156,7 +159,7 @@ public class ServerGuiController implements Initializable {
 
         scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
 
-
+        
         lblStatus.setText("Server: Parado");
         butStartStop.setText("Start");
         //Listener startStop server button
@@ -167,7 +170,7 @@ public class ServerGuiController implements Initializable {
         Label l;
         for(int x = 0; x <= 50; x++)
         {
-            l = new Label("Texto label");
+            l = new Label("Texto label: " + x );
             l.setPadding(new Insets(0, 0, 0, 20));
             l.setStyle("-fx-background-color: white;");
             vBoxUserList.getChildren().add(l);
