@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
 /**
  *
@@ -32,8 +33,14 @@ import javafx.scene.paint.Paint;
  */
 public class ServerGuiController implements Initializable {
     
+     class Delta { 
+         double x, y;   
+    }
+     
+    final Delta dragDelta = new Delta();
+    
     @FXML
-    private BorderPane borderPane;
+    private BorderPane mainBorderPane;
         
     @FXML
     private HBox topPane;
@@ -71,6 +78,14 @@ public class ServerGuiController implements Initializable {
     
     private String server = null;
     
+    private final Stage stage;
+    
+    //Constructor, se obtiene el stage
+    public ServerGuiController(final Stage stage)
+    {
+        this.stage = stage;
+    }
+    
     
     private void startStopButton()
     {
@@ -105,38 +120,38 @@ public class ServerGuiController implements Initializable {
     {
         
         //leftPane - widthProperty
-        leftPane.minWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
-        leftPane.maxWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
-        leftPane.prefWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
+//        leftPane.minWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
+//        leftPane.maxWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
+//        leftPane.prefWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
         
         
         //leftPane - heightProperty
-        leftPane.minHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        leftPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        leftPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        
+//        leftPane.minHeightProperty().bind(mainBorderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        leftPane.maxHeightProperty().bind(mainBorderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        leftPane.prefHeightProperty().bind(mainBorderPane.heightProperty().subtract(20).subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+       
         
         //rightPane - width binding
-        rightPane.minWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
-        rightPane.maxWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
-        rightPane.prefWidthProperty().bind(borderPane.widthProperty().multiply(0.2));
+//        rightPane.minWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
+//        rightPane.maxWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
+//        rightPane.prefWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
         
         //rightPane - heightProperty
-        rightPane.minHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        rightPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        rightPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        rightPane.minHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        rightPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        rightPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
         
   
         //lblTitleUsers - width binding
-        titledPaneUsers.minWidthProperty().bind(leftPane.widthProperty());
-        titledPaneUsers.maxWidthProperty().bind(leftPane.widthProperty());
-        titledPaneUsers.prefWidthProperty().bind(leftPane.widthProperty());
+//        titledPaneUsers.minWidthProperty().bind(leftPane.widthProperty());
+//        titledPaneUsers.maxWidthProperty().bind(leftPane.widthProperty());
+//        titledPaneUsers.prefWidthProperty().bind(leftPane.widthProperty());
         
         
         //vBox que almacena los label del listado de usuarios (en el leftPane)
-        vBoxUserList.minWidthProperty().bind(scrollPaneUsers.widthProperty());
-        vBoxUserList.maxWidthProperty().bind(scrollPaneUsers.widthProperty());
-        vBoxUserList.prefWidthProperty().bind(scrollPaneUsers.widthProperty());
+//        vBoxUserList.minWidthProperty().bind(scrollPaneUsers.widthProperty());
+//        vBoxUserList.maxWidthProperty().bind(scrollPaneUsers.widthProperty());
+//        vBoxUserList.prefWidthProperty().bind(scrollPaneUsers.widthProperty());
         
         
         //scrollPaneUsers - height binding - contiene la lista de usuarios
@@ -150,31 +165,48 @@ public class ServerGuiController implements Initializable {
     private void init()
     {
         
-        borderPane.getStyleClass().add("borde");
-        
-        textArea.setEditable(false);
-        setBindings();
-
+//        borderPane.getStyleClass().add("borde");
+//        
+//        textArea.setEditable(false);
+//        setBindings();
+//
 //      leftPane.setAlignment(Pos.BASELINE_RIGHT);
-
-        scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
-
+//
+//        scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
+//
+//        
+//        lblStatus.setText("Server: Parado");
+//        butStartStop.setText("Start");
+//        //Listener startStop server button
+//        butStartStop.setOnAction((event) -> {
+//            startStopButton();        
+//        });
+//        
+//        Label l;
+//        for(int x = 0; x <= 50; x++)
+//        {
+//            l = new Label("Texto label: " + x );
+//            l.setPadding(new Insets(0, 0, 0, 20));
+//            l.setStyle("-fx-background-color: white;");
+//            vBoxUserList.getChildren().add(l);
+//        }
         
-        lblStatus.setText("Server: Parado");
-        butStartStop.setText("Start");
-        //Listener startStop server button
-        butStartStop.setOnAction((event) -> {
-            startStopButton();        
+        
+        topPane.setOnMousePressed((event) -> {
+            dragDelta.x = stage.getX() - event.getScreenX();
+            dragDelta.y = stage.getY() - event.getScreenY();
         });
         
-        Label l;
-        for(int x = 0; x <= 50; x++)
-        {
-            l = new Label("Texto label: " + x );
-            l.setPadding(new Insets(0, 0, 0, 20));
-            l.setStyle("-fx-background-color: white;");
-            vBoxUserList.getChildren().add(l);
-        }
+        topPane.setOnMouseDragged((event) -> {
+            stage.setX(event.getScreenX() + dragDelta.x);
+            stage.setY(event.getScreenY() + dragDelta.y);
+        });
+        
+        topPane.setOnMouseReleased((event) -> {
+            stage.setX(event.getScreenX() + dragDelta.x);
+            stage.setY(event.getScreenY() + dragDelta.y);
+        });
+        
         
     }
     

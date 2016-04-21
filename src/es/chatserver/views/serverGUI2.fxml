@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatserver.controllers.viewcontrollers.ServerGuiController">
+   <top>
+      <HBox fx:id="topPane" prefHeight="57.0" prefWidth="978.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <VBox fx:id="rightPane" prefHeight="669.0" prefWidth="108.0" BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton fx:id="butStartStop" mnemonicParsing="false" text="ToggleButton" />
+         </children></VBox>
+   </right>
+   <left>
+      <VBox fx:id="leftPane" prefHeight="566.0" prefWidth="163.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+         <children>
+            <Accordion>
+              <panes>
+                  <TitledPane fx:id="titledPaneUsers" animated="false" text="Usuarios online:" textAlignment="CENTER">
+                     <content>
+                        <ScrollPane fx:id="scrollPaneUsers" prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <VBox fx:id="vBoxUserList" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: red;" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </TitledPane>
+                <TitledPane animated="false" text="untitled 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                </TitledPane>
+                <TitledPane animated="false" text="untitled 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                </TitledPane>
+              </panes>
+            </Accordion>
+            <Label text="Label" />
+         </children>
+      </VBox>
+   </left>
+   <bottom>
+      <BorderPane fx:id="bottomPane" prefHeight="22.0" prefWidth="872.0" BorderPane.alignment="CENTER">
+         <bottom>
+            <HBox prefHeight="23.0" prefWidth="872.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="lblStatus" text="Label" />
+               </children>
+            </HBox>
+         </bottom>
+         <top>
+            <HBox fx:id="bottomStatusPane" prefHeight="9.0" prefWidth="872.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </bottom>
+</BorderPane>

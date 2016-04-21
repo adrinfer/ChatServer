@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,70 +9,65 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatserver.controllers.viewcontrollers.ServerGuiController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <HBox fx:id="topPane" prefHeight="57.0" prefWidth="978.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
-   </top>
-   <center>
-      <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
-   <right>
-      <VBox fx:id="rightPane" prefHeight="669.0" prefWidth="108.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="60.0" prefWidth="872.0" BorderPane.alignment="CENTER">
          <children>
-            <ToggleButton fx:id="butStartStop" mnemonicParsing="false" text="ToggleButton" />
-         </children></VBox>
-   </right>
-   <left>
-      <VBox fx:id="leftPane" prefHeight="566.0" prefWidth="163.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
-         <children>
-            <Accordion>
-              <panes>
-                  <TitledPane fx:id="titledPaneUsers" animated="false" text="Usuarios online:" textAlignment="CENTER">
-                     <content>
-                        <ScrollPane fx:id="scrollPaneUsers" prefHeight="200.0" prefWidth="200.0">
-                           <content>
-                              <VBox fx:id="vBoxUserList" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: red;" />
-                           </content>
-                        </ScrollPane>
-                     </content>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </TitledPane>
-                <TitledPane animated="false" text="untitled 1">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                </TitledPane>
-                <TitledPane animated="false" text="untitled 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                </TitledPane>
-              </panes>
-            </Accordion>
-            <Label text="Label" />
+            <HBox fx:id="topPane" prefHeight="30.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
+            <HBox prefHeight="30.0" prefWidth="872.0" style="-fx-background-color: #A10000;" />
          </children>
       </VBox>
-   </left>
+   </top>
    <bottom>
-      <BorderPane fx:id="bottomPane" prefHeight="22.0" prefWidth="872.0" BorderPane.alignment="CENTER">
-         <bottom>
-            <HBox prefHeight="23.0" prefWidth="872.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label fx:id="lblStatus" text="Label" />
-               </children>
-            </HBox>
-         </bottom>
-         <top>
-            <HBox fx:id="bottomStatusPane" prefHeight="9.0" prefWidth="872.0" style="-fx-background-color: #D2090C;" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
+      <VBox prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #A10000;" />
+            <HBox prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #B2B2AA;" />
+         </children>
+      </VBox>
    </bottom>
+   <center>
+      <GridPane style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="145.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox prefHeight="407.0" prefWidth="218.0" style="-fx-border-color: #B2B2AA; -fx-border-width: 7; -fx-background-color: white;" GridPane.rowSpan="3">
+               <children>
+                  <Accordion>
+                    <panes>
+                      <TitledPane animated="false" text="untitled 1">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="untitled 2">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="untitled 3">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-insets: 20;" />
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children>
+               <opaqueInsets>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </opaqueInsets>
+            </VBox>
+            <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3" />
+         </children>
+      </GridPane>
+   </center>
 </BorderPane>

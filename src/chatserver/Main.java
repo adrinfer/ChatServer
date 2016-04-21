@@ -5,12 +5,14 @@
  */
 package chatserver;
 
+import es.chatserver.controllers.viewcontrollers.ServerGuiController;
 import java.beans.PersistenceDelegate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 /**
@@ -19,10 +21,12 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     
-    
+    //Atributos
     private BorderPane root;
     private Scene scene;
+    FXMLLoader loader;
     
+    //Debe ser llamado después del "show" del stage principal
     private void setBindings()
     {
         //Width
@@ -36,21 +40,36 @@ public class Main extends Application {
         root.prefHeightProperty().bind(scene.heightProperty().subtract(1));
     }
     
+    //Cargar css utilizados - Debe ser llamado despues de crear la escena.
+    private void loadStyles()
+    {
+        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/scrollBar.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/mainBorderPaneBorders.css").toExternalForm());
+    }
+    
     
     @Override
     public void start(Stage stage) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));
+        
+        ServerGuiController controllerGUI = new ServerGuiController(stage);
+        
+        //Cargar FXML principal
+        
+        loader = new FXMLLoader(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));
+        loader.setController(controllerGUI);
+        root = loader.load();
         
         scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/scrollBar.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/mainBorderPaneBorders.css").toExternalForm());
-        stage.setTitle("AAAA");
-        //stage.initStyle(StageStyle.UTILITY);
+        
+        loadStyles();
+        
+        stage.setTitle("ChatTo: Server");
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
         
         setBindings();
-        
+                
     }
 
     /**
