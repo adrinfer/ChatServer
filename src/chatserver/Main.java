@@ -6,11 +6,13 @@
 package chatserver;
 
 import es.chatserver.controllers.viewcontrollers.ServerGuiController;
-import java.beans.PersistenceDelegate;
+import es.chatserver.views.Decorator;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -59,12 +61,15 @@ public class Main extends Application {
         loader.setController(controllerGUI);
         root = loader.load();
         
-        scene = new Scene(root);
+        Decorator d = new Decorator(stage, root);
+        
+        scene = new Scene(d);
         
         loadStyles();
         
         stage.setTitle("ChatTo: Server");
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT); 
+        scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
         

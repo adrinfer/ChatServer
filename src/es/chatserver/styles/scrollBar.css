@@ -8,14 +8,14 @@ and open the template in the editor.
     Author     : Practicas01
 */
 
-/****************************************************************
- 
-  ScrollBar Skin  
- 
-****************************************************************/
+/**********************
+    CSS SCROLL BAR
+**********************/
+
 .scroll-bar{
- -fx-background-color: rgb(96,96,96);
- 
+ -fx-background-color: #B2B2AA;
+ -fx-background-insets: 7,7,7,7;
+
 }
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track {
@@ -35,17 +35,17 @@ and open the template in the editor.
  
 }
 .scroll-bar:vertical .thumb {
- -fx-background-color: rgb(211,211,211);
+ -fx-background-color: rgb(96,96,96);
  -fx-background-insets: 0 4 0 4;
  
 }
 .scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
- -fx-background-color: rgb(240, 240, 240);
+ -fx-background-color: rgb(130, 130, 130);
 }
 .scroll-bar:horizontal .thumb:pressed,
 .scroll-bar:vertical .thumb:pressed {
- -fx-background-color: rgb(255,255,255);
+ -fx-background-color: rgb(96, 96, 96);
 }
 .scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button {
  -fx-background-color:transparent;
@@ -95,5 +95,75 @@ and open the template in the editor.
 }
 .scroll-bar:vertical:focused,
 .scroll-bar:horizontal:focused {
- -fx-background-color: transparent,rgb(96,96,96),rgb(96,96,96);
+    -fx-background-color: transparent,rgb(96,96,96),rgb(96,96,96);
 }
+
+/*************************
+    FIN CSS SCROLL BAR
+**************************/
+
+
+
+/***********************
+    CSS TITLED PANES
+************************/
+
+.titled-pane .title
+{
+    -fx-background-color: #B2B2AA;
+    -fx-text-fill: white;
+    
+    -fx-border-width: 4px;
+    -fx-border-color: white;
+    
+}
+
+.titled-pane 
+{
+    -fx-text-fill: white;
+}
+
+
+
+.titled-pane:focused 
+{
+    -fx-text-fill: white;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+    -fx-background-color:  gray;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+-fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+    -fx-background-color: -fx-box-border,
+    linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+    -fx-background-insets: 0, 0 1 1 1;
+    -fx-padding: 0.167em;
+ }
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+-fx-background-color: white;
+}
+
+/**************************
+    FIN CSS TITLED PANES
+***************************/
