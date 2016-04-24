@@ -6,7 +6,10 @@
 package chatserver;
 
 import es.chatserver.controllers.viewcontrollers.ServerGuiController;
+import es.chatserver.resources.Images;
 import es.chatserver.views.Decorator;
+import javafx.animation.ScaleTransition;
+import javafx.animation.ScaleTransitionBuilder;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 /**
@@ -53,26 +57,48 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
+        
+        //Crear así el controlador para tener acceso al stage
         ServerGuiController controllerGUI = new ServerGuiController(stage);
         
-        //Cargar FXML principal
-        
+        //Cargar FXML principal        
         loader = new FXMLLoader(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));
+        
+        //Asignar el controlador
         loader.setController(controllerGUI);
         root = loader.load();
         
-        Decorator d = new Decorator(stage, root);
+        stage.setTitle("ChatTo: Server");
+
+        //Decorador con los botones minimizar, maximizar, cerrar y redimensionar
+        Decorator decoratorRoot = new Decorator(stage, root);
         
-        scene = new Scene(d);
+        scene = new Scene(decoratorRoot);
+        scene.setFill(Color.TRANSPARENT);
+        
+        stage.initStyle(StageStyle.TRANSPARENT); 
+        
         
         loadStyles();
         
-        stage.setTitle("ChatTo: Server");
-        stage.initStyle(StageStyle.TRANSPARENT); 
-        scene.setFill(Color.TRANSPARENT);
+        
         stage.setScene(scene);
+        
+           
+        //Transición al iniciar la aplicación    
+        ScaleTransition scaleTransitionOpen = ScaleTransitionBuilder.create()
+            .node(decoratorRoot)
+            .duration(Duration.seconds(0.3))
+            .fromX(0)
+            .fromY(0)
+            .toX(1)
+            .toY(1)
+            .build();
+
         stage.show();
         
+        //Llamar a la animación después de mostrar el show
+        scaleTransitionOpen.play();
         setBindings();
                 
     }

@@ -180,9 +180,9 @@ public class ServerGuiController implements Initializable {
     
     private void init()
     {
-        //HAcer que la ventana(stage), se pueda arrastrar con el topPane y bottomPane
+        //Hacer que la ventana(stage), se pueda arrastrar con el topPane y bottomPane
         Utils.makeDraggable(stage, topPane);
-        //Utils.makeDraggable(stage, bottomPane);
+        Utils.makeDraggable(stage, bottomPane);
         
         //Inicializar unión de los paneles y su ajuste (interfaz gráfica)
         setBindings();

@@ -13,7 +13,7 @@
    <top>
       <VBox fx:id="topPane" prefHeight="60.0" prefWidth="872.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="topPaneBar" prefHeight="30.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
+            <HBox fx:id="topPaneBar" prefHeight="55.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
             <HBox prefHeight="30.0" prefWidth="872.0" style="-fx-background-color: #A10000;" />
          </children>
       </VBox>
@@ -22,7 +22,7 @@
       <VBox fx:id="bottomPane" prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #A10000;" />
-            <HBox prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #B2B2AA;" />
+            <HBox prefHeight="55.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
          </children>
       </VBox>
    </bottom>

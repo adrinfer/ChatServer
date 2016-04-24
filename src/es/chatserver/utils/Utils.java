@@ -57,7 +57,13 @@ public class Utils {
             stage.setY(event.getScreenY() + dragDelta.y);
         });
         
+        node.setOnMouseClicked((event) -> {
+            if(event.getClickCount() == 2)
+            {
+                stage.setMaximized(!stage.isMaximized());
+            }
+        });
         
     }
-    
+   
 }
