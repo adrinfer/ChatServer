@@ -17,6 +17,7 @@ import javafx.animation.ScaleTransitionBuilder;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,16 +33,20 @@ public class Decorator extends AnchorPane {
 
     //Atributos
     private final Stage stage;
-    private double posX;
-    private double posY;
-    private double newPosX;
-    private double newPosY;
+    private double oldWidth;
+    private double oldHeight;
+    private double oldX;
+    private double oldY;
     
     //Constructor
     public Decorator(Stage stage, Node node) {
         
         super();
 
+        Accordion a = new Accordion();
+        
+        
+        
         this.stage = stage;
         this.setPadding(new Insets(0, 0, 0, 0));
        
@@ -96,39 +101,49 @@ public class Decorator extends AnchorPane {
         
         //Botón para redimensionar la ventana
         Button btnRes = buildButton("Resize", Images.getImage(Images.RESIZE_ICON), Images.getImage(Images.RESIZE_ICON_HOVER));
-        
-        btnRes.setOnMouseClicked((event) -> {
-
-        });
-        
+          
         btnRes.setOnMousePressed((event) -> {
             btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_PRESSED)));
+            this.oldX = event.getSceneX();
+            this.oldY = event.getSceneY();
+            this.oldWidth = stage.getWidth();
+            this.oldHeight = stage.getHeight();
 
         });
+       
         
         btnRes.setOnMouseReleased((event) -> {
-            btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_HOVER)));
+              btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON)));               
         });
         
         btnRes.setOnMouseDragged((event) -> {
-            btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_HOVER)));
+            btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_PRESSED)));
+            double newWidth = this.oldWidth + (event.getSceneX() - this.oldX);
+            double newHeight = this.oldHeight + (event.getSceneY() - this.oldY);
             
-
+            if(newWidth >= 600)
+            {
+                stage.setWidth(newWidth);
+            }
             
+            if(newHeight >= 400)
+            {
+                stage.setHeight(newHeight);
+            }
+                                    
         });
         
         btnRes.setOnMouseEntered((event) -> {
             btnRes.setCursor(Cursor.SE_RESIZE);
+            btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_HOVER)));
         });
         
         //Posición botón de redimensionar
-        AnchorPane.setRightAnchor(btnRes, 4.5);
-        AnchorPane.setBottomAnchor(btnRes, 4.5);
+        AnchorPane.setRightAnchor(btnRes, 1.5);
+        AnchorPane.setBottomAnchor(btnRes, 1.5);
         
 
-        this.getChildren().addAll(node, btnMax,btnClose, btnRes);
-        
-
+        this.getChildren().addAll(node, btnMax, btnClose, btnRes);
  
     }
 

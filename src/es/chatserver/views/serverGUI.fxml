@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -14,14 +16,14 @@
       <VBox fx:id="topPane" prefHeight="60.0" prefWidth="872.0" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="topPaneBar" prefHeight="55.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
-            <HBox prefHeight="30.0" prefWidth="872.0" style="-fx-background-color: #A10000;" />
+            <HBox fx:id="topPaneStatus" prefHeight="30.0" prefWidth="872.0" />
          </children>
       </VBox>
    </top>
    <bottom>
       <VBox fx:id="bottomPane" prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #A10000;" />
+            <HBox fx:id="bottomPaneStatus" prefHeight="30.0" prefWidth="200.0" />
             <HBox prefHeight="55.0" prefWidth="872.0" style="-fx-background-color: #B2B2AA;" />
          </children>
       </VBox>
@@ -79,7 +81,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </opaqueInsets>
             </VBox>
-            <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3" />
+            <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="3" GridPane.rowSpan="3" />
          </children>
       </GridPane>

@@ -5,7 +5,11 @@
  */
 package es.chatserver.controllers.viewcontrollers;
 
+import es.chatserver.model.UsersJpaController;
+import es.chatserver.styles.UserLabel;
 import es.chatserver.utils.Utils;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -39,7 +43,16 @@ public class ServerGuiController implements Initializable {
     
     @FXML
     private BorderPane mainBorderPane;
-        
+    
+    @FXML
+    private HBox topPaneStatus;
+
+    @FXML
+    private HBox bottomPaneStatus;
+    
+    @FXML
+    private Rectangle bottomRecStatus;
+    
     @FXML
     private VBox topPane;
     
@@ -123,6 +136,9 @@ public class ServerGuiController implements Initializable {
     private void setBindings()
     {
         
+        
+        
+        
         //leftPane - widthProperty
         leftPane.minWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.25));
         leftPane.maxWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.25));
@@ -187,34 +203,27 @@ public class ServerGuiController implements Initializable {
         //Inicializar unión de los paneles y su ajuste (interfaz gráfica)
         setBindings();
         
-//      borderPane.getStyleClass().add("borde");
-//        
-//      textArea.setEditable(false);
-//
-//      leftPane.setAlignment(Pos.BASELINE_RIGHT);
-//
-         scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
-//
-//        
-//        lblStatus.setText("Server: Parado");
-//        butStartStop.setText("Start");
-//        //Listener startStop server button
-//        butStartStop.setOnAction((event) -> {
-//            startStopButton();        
-//        });
-//        
+        //Quitar barra de scroll horizontal de la lista de usuarios
+        scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
+        
+        //Establecer color de los paneStatus iniciales
+        topPaneStatus.getStyleClass().add("stopped");
+        bottomPaneStatus.getStyleClass().add("stopped");
+        
+        //Bloquear el textArea para solo lectura
+        textArea.setEditable(false);
+
+        UsersJpaController a = new UsersJpaController();
+        System.out.println(a.getUsersCount());
+
         Label l;
         for(int x = 0; x <= 50; x++)
         {
-            l = new Label("Texto label: " + x );
-            l.setPadding(new Insets(0, 0, 0, 20));
-            l.setStyle("-fx-background-color: white;");
+            l = new UserLabel("Texto label: " + x , vBoxUserList);
+
             vBoxUserList.getChildren().add(l);
+            
         }
-        
-        
-
-
         
     }
     
