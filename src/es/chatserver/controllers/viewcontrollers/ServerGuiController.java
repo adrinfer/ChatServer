@@ -5,10 +5,15 @@
  */
 package es.chatserver.controllers.viewcontrollers;
 
-import es.chatserver.model.UsersJpaController;
+
+import es.chatserver.controllers.persistence.PersistenceController;
+import es.chatserver.model.Client;
+import es.chatserver.model.ClientConver;
+import es.chatserver.model.ClientConverPK;
+import es.chatserver.model.Conver;
+import es.chatserver.model.Message;
 import es.chatserver.styles.UserLabel;
 import es.chatserver.utils.Utils;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,14 +29,13 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -86,7 +90,6 @@ public class ServerGuiController implements Initializable {
     @FXML
     private Label lblStatus;
 
-    
     @FXML
     private ScrollPane scrollPaneUsers;
     
@@ -96,6 +99,9 @@ public class ServerGuiController implements Initializable {
     private String server = null;
     
     private final Stage stage;
+    
+    private final PersistenceController perController = PersistenceController.getInstance();
+
     
     //Constructor, se obtiene el stage
     public ServerGuiController(final Stage stage)
@@ -135,6 +141,66 @@ public class ServerGuiController implements Initializable {
     
     private void setBindings()
     {
+        
+//       Conver conver = new Conver();
+
+//        
+//      conver.addMessage(msg);
+//        
+//        perController.persist(conver);
+        
+        
+        
+//        Client client = new Client("adrinfer");
+//        
+//        ClientConver clientConver = new ClientConver();
+//        clientConver.setAdmin(Boolean.TRUE);
+//        perController.persist(client);
+//        
+//        clientConver.setClient(client);
+//        
+//        Conver conver = new Conver();
+//        perController.persist(conver);
+//        clientConver.setConver(conver);
+//        
+//        
+//        Message msg = new Message();
+//        
+//        msg.setClientConver(clientConver);
+//        
+//        perController.persist(clientConver);
+//        
+//        
+//        perController.persist(msg);
+        
+        //Client client2 = new Client("adrinfer2");
+        
+
+        //AÑADIR MENSAJE DE CLIENTE EXISTENTE
+        Message mensaje = new Message();
+        
+        ClientConver clienteConversacion = perController.findClientConver(new ClientConverPK(10,8));       
+
+        
+        Message msg2 = new Message();
+        msg2.setClientConver(clienteConversacion);
+        perController.persist(msg2);
+        
+        
+        
+        
+        //AÑADIR CLIENTE
+//        Client cliente3 = new Client("Tokuro");
+//        perController.persist(cliente3);
+//        
+//        ClientConver clientConver3 = new ClientConver();
+//        clientConver3.setClient(cliente3);
+//        clientConver3.setAdmin(false);
+//        clientConver3.setMod(Boolean.TRUE);
+//        
+//        clientConver3.setConver(perController.findConver(8));
+//        
+//        perController.persist(clientConver3);
         
         
         
@@ -213,8 +279,10 @@ public class ServerGuiController implements Initializable {
         //Bloquear el textArea para solo lectura
         textArea.setEditable(false);
 
-        UsersJpaController a = new UsersJpaController();
-        System.out.println(a.getUsersCount());
+        
+        
+       
+        
 
         Label l;
         for(int x = 0; x <= 50; x++)

@@ -6,11 +6,9 @@
 package chatserver;
 
 import es.chatserver.controllers.viewcontrollers.ServerGuiController;
-import es.chatserver.resources.Images;
 import es.chatserver.views.Decorator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
