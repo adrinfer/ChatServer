@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Entity
 @Table(name = "message")
@@ -33,9 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Message.findAll", query = "SELECT m FROM Message m"),
     @NamedQuery(name = "Message.findById", query = "SELECT m FROM Message m WHERE m.id = :id"),
-    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type"),
+    @NamedQuery(name = "Message.findByDate", query = "SELECT m FROM Message m WHERE m.date = :date"),
     @NamedQuery(name = "Message.findByText", query = "SELECT m FROM Message m WHERE m.text = :text"),
-    @NamedQuery(name = "Message.findByDate", query = "SELECT m FROM Message m WHERE m.date = :date")})
+    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type")})
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,13 +44,13 @@ public class Message implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "type")
-    private Integer type;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @Column(name = "text")
     private String text;
-    @Column(name = "date")
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Column(name = "type")
+    private Integer type;
     @JoinColumns({
         @JoinColumn(name = "clientid", referencedColumnName = "clientid"),
         @JoinColumn(name = "converid", referencedColumnName = "converid")})
@@ -58,11 +58,16 @@ public class Message implements Serializable {
     private ClientConver clientConver;
 
     public Message() {
-        this.text ="texto";
     }
 
+    public Message(String msg)
+    {
+        this.text = msg;
+    }
+    
     public Message(Integer id) {
         this.id = id;
+        
     }
 
     public Integer getId() {
@@ -73,12 +78,12 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
+    public Date getDate() {
+        return date;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getText() {
@@ -89,12 +94,12 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public Date getDate() {
-        return date;
+    public Integer getType() {
+        return type;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public ClientConver getClientConver() {

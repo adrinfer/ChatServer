@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Embeddable
 public class ClientConverPK implements Serializable {

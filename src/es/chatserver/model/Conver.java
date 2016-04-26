@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Entity
 @Table(name = "conver")
@@ -44,7 +44,7 @@ public class Conver implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conver")
     private Collection<ClientConver> clientConverCollection;

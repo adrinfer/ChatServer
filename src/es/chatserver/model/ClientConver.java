@@ -21,26 +21,26 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Entity
 @Table(name = "client_conver")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ClientConver.findAll", query = "SELECT c FROM ClientConver c"),
-    @NamedQuery(name = "ClientConver.findByClientid", query = "SELECT c FROM ClientConver c WHERE c.clientConverPK.clientid = :clientid"),
-    @NamedQuery(name = "ClientConver.findByConverid", query = "SELECT c FROM ClientConver c WHERE c.clientConverPK.converid = :converid"),
+    @NamedQuery(name = "ClientConver.findByAdmin", query = "SELECT c FROM ClientConver c WHERE c.admin = :admin"),
     @NamedQuery(name = "ClientConver.findByMod", query = "SELECT c FROM ClientConver c WHERE c.mod = :mod"),
-    @NamedQuery(name = "ClientConver.findByAdmin", query = "SELECT c FROM ClientConver c WHERE c.admin = :admin")})
+    @NamedQuery(name = "ClientConver.findByClientid", query = "SELECT c FROM ClientConver c WHERE c.clientConverPK.clientid = :clientid"),
+    @NamedQuery(name = "ClientConver.findByConverid", query = "SELECT c FROM ClientConver c WHERE c.clientConverPK.converid = :converid")})
 public class ClientConver implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ClientConverPK clientConverPK;
-    @Column(name = "mod")
-    private Boolean mod;
     @Column(name = "admin")
     private Boolean admin;
+    @Column(name = "mod")
+    private Boolean mod;
     @JoinColumn(name = "clientid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Client client;
@@ -69,20 +69,20 @@ public class ClientConver implements Serializable {
         this.clientConverPK = clientConverPK;
     }
 
-    public Boolean getMod() {
-        return mod;
-    }
-
-    public void setMod(Boolean mod) {
-        this.mod = mod;
-    }
-
     public Boolean getAdmin() {
         return admin;
     }
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public Boolean getMod() {
+        return mod;
+    }
+
+    public void setMod(Boolean mod) {
+        this.mod = mod;
     }
 
     public Client getClient() {

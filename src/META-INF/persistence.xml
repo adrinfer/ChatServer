@@ -7,7 +7,7 @@
     <class>es.chatserver.model.Client</class>
     <class>es.chatserver.model.ClientConver</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/ChatServer"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/ChatServer2"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="adrinfer"/>

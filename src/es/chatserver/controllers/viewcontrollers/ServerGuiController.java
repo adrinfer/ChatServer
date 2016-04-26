@@ -16,6 +16,7 @@ import es.chatserver.styles.UserLabel;
 import es.chatserver.utils.Utils;
 import java.awt.Rectangle;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -141,27 +142,21 @@ public class ServerGuiController implements Initializable {
     
     private void setBindings()
     {
-        
-//       Conver conver = new Conver();
 
-//        
-//      conver.addMessage(msg);
-//        
-//        perController.persist(conver);
-        
-        
         
 //        Client client = new Client("adrinfer");
 //        
 //        ClientConver clientConver = new ClientConver();
 //        clientConver.setAdmin(Boolean.TRUE);
+//        clientConver.setMod(Boolean.FALSE);
+//        
 //        perController.persist(client);
 //        
 //        clientConver.setClient(client);
 //        
-//        Conver conver = new Conver();
-//        perController.persist(conver);
-//        clientConver.setConver(conver);
+//        Conver conver2 = new Conver();
+//        perController.persist(conver2);
+//        clientConver.setConver(conver2);
 //        
 //        
 //        Message msg = new Message();
@@ -172,35 +167,41 @@ public class ServerGuiController implements Initializable {
 //        
 //        
 //        perController.persist(msg);
-        
-        //Client client2 = new Client("adrinfer2");
+//        
+//        Client client2 = new Client("adrinfer2");
+//        
+//
+//        //AÑADIR MENSAJE DE CLIENTE EXISTENTE
+//        Message mensaje = new Message();
+//        
+//        Client clienteUno = perController.findClient(1);
+//        Conver converUno = perController.findConver(1);
+//
+//        
+//        
+//        ClientConver clienteConversacion = perController.findClientConver(new ClientConverPK(3,1));       
+//
+//        
+//        Message msg2 = new Message("Mensaje user 3");
+//        msg2.setClientConver(clienteConversacion);
+//        perController.persist(msg2);
         
 
-        //AÑADIR MENSAJE DE CLIENTE EXISTENTE
-        Message mensaje = new Message();
         
-        ClientConver clienteConversacion = perController.findClientConver(new ClientConverPK(10,8));       
-
+//        //AÑADIR CLIENTE
+        Client cliente3 = new Client("Shaito2");
+        perController.persist(cliente3);
         
-        Message msg2 = new Message();
-        msg2.setClientConver(clienteConversacion);
-        perController.persist(msg2);
+        ClientConver clientConver3 = new ClientConver();
+        clientConver3.setClient(cliente3);
+        clientConver3.setAdmin(false);
+        clientConver3.setMod(Boolean.TRUE);
+        Conver c = new Conver();
+        c.setDate(new Date());
+        perController.persist(c);
+        clientConver3.setConver(c);
         
-        
-        
-        
-        //AÑADIR CLIENTE
-//        Client cliente3 = new Client("Tokuro");
-//        perController.persist(cliente3);
-//        
-//        ClientConver clientConver3 = new ClientConver();
-//        clientConver3.setClient(cliente3);
-//        clientConver3.setAdmin(false);
-//        clientConver3.setMod(Boolean.TRUE);
-//        
-//        clientConver3.setConver(perController.findConver(8));
-//        
-//        perController.persist(clientConver3);
+        perController.persist(clientConver3);
         
         
         
@@ -250,8 +251,7 @@ public class ServerGuiController implements Initializable {
         vBoxUserList.prefWidthProperty().bind(scrollPaneUsers.widthProperty());
         
         
-
-        
+   
         //scrollPaneUsers - height binding - contiene la lista de usuarios
 //        scrollPaneUsers.minHeightProperty().bind(titledPaneUsersList.heightProperty());
 //        scrollPaneUsers.maxHeightProperty().bind(titledPaneUsersList.heightProperty());
@@ -279,9 +279,6 @@ public class ServerGuiController implements Initializable {
         //Bloquear el textArea para solo lectura
         textArea.setEditable(false);
 
-        
-        
-       
         
 
         Label l;

@@ -7,6 +7,7 @@ package es.chatserver.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,12 +19,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Entity
 @Table(name = "client")
@@ -32,7 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
     @NamedQuery(name = "Client.findById", query = "SELECT c FROM Client c WHERE c.id = :id"),
     @NamedQuery(name = "Client.findByNick", query = "SELECT c FROM Client c WHERE c.nick = :nick"),
-    @NamedQuery(name = "Client.findByPass", query = "SELECT c FROM Client c WHERE c.pass = :pass")})
+    @NamedQuery(name = "Client.findByPass", query = "SELECT c FROM Client c WHERE c.pass = :pass"),
+    @NamedQuery(name = "Client.findByRegistro", query = "SELECT c FROM Client c WHERE c.registro = :registro"),
+    @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email = :email")})
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,18 +50,22 @@ public class Client implements Serializable {
     private String nick;
     @Column(name = "pass")
     private String pass;
+    @Column(name = "registro")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registro;
+    @Column(name = "email")
+    private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<ClientConver> clientConverCollection;
 
     public Client() {
-        
-    }
-    
-    public Client(String nick) {
-        this.nick = nick;
-        
     }
 
+    public Client(String nick)
+    {
+        this.nick = nick;
+    }
+    
     public Client(Integer id) {
         this.id = id;
     }
@@ -83,6 +92,22 @@ public class Client implements Serializable {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Date getRegistro() {
+        return registro;
+    }
+
+    public void setRegistro(Date registro) {
+        this.registro = registro;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @XmlTransient

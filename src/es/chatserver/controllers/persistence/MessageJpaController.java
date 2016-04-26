@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class MessageJpaController implements Serializable {
 
