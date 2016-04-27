@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 @Entity
 @Table(name = "client_conver")
@@ -51,6 +51,7 @@ public class ClientConver implements Serializable {
     private Collection<Message> messageCollection;
 
     public ClientConver() {
+        
     }
 
     public ClientConver(ClientConverPK clientConverPK) {

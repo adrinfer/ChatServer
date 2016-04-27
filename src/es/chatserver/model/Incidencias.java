@@ -6,54 +6,60 @@
 package es.chatserver.model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Practicas01
  */
 @Entity
-@Table(name = "conver")
+@Table(name = "incidencias")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conver.findAll", query = "SELECT c FROM Conver c"),
-    @NamedQuery(name = "Conver.findById", query = "SELECT c FROM Conver c WHERE c.id = :id"),
-    @NamedQuery(name = "Conver.findByDate", query = "SELECT c FROM Conver c WHERE c.date = :date")})
-public class Conver implements Serializable {
+    @NamedQuery(name = "Incidencias.findAll", query = "SELECT i FROM Incidencias i"),
+    @NamedQuery(name = "Incidencias.findByIncidencia", query = "SELECT i FROM Incidencias i WHERE i.incidencia = :incidencia"),
+    @NamedQuery(name = "Incidencias.findById", query = "SELECT i FROM Incidencias i WHERE i.id = :id"),
+    @NamedQuery(name = "Incidencias.findByType", query = "SELECT i FROM Incidencias i WHERE i.type = :type")})
+public class Incidencias implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Column(name = "incidencia")
+    private String incidencia;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conver")
-    private Collection<ClientConver> clientConverCollection;
+    @Column(name = "type")
+    private String type;
+    @JoinColumn(name = "clientid", referencedColumnName = "id")
+    @ManyToOne
+    private Client clientid;
 
-    public Conver() {
+    public Incidencias() {
     }
 
-    public Conver(Integer id) {
+    public Incidencias(Integer id) {
         this.id = id;
+    }
+
+    public String getIncidencia() {
+        return incidencia;
+    }
+
+    public void setIncidencia(String incidencia) {
+        this.incidencia = incidencia;
     }
 
     public Integer getId() {
@@ -64,21 +70,20 @@ public class Conver implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public String getType() {
+        return type;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    @XmlTransient
-    public Collection<ClientConver> getClientConverCollection() {
-        return clientConverCollection;
+    public Client getClientid() {
+        return clientid;
     }
 
-    public void setClientConverCollection(Collection<ClientConver> clientConverCollection) {
-        this.clientConverCollection = clientConverCollection;
+    public void setClientid(Client clientid) {
+        this.clientid = clientid;
     }
 
     @Override
@@ -91,10 +96,10 @@ public class Conver implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conver)) {
+        if (!(object instanceof Incidencias)) {
             return false;
         }
-        Conver other = (Conver) object;
+        Incidencias other = (Incidencias) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -103,7 +108,7 @@ public class Conver implements Serializable {
 
     @Override
     public String toString() {
-        return "es.chatserver.model.Conver[ id=" + id + " ]";
+        return "es.chatserver.model.Incidencias[ id=" + id + " ]";
     }
     
 }

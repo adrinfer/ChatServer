@@ -25,7 +25,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 public class ClientConverJpaController implements Serializable {
 
@@ -45,8 +45,8 @@ public class ClientConverJpaController implements Serializable {
         if (clientConver.getMessageCollection() == null) {
             clientConver.setMessageCollection(new ArrayList<Message>());
         }
-        clientConver.getClientConverPK().setConverid(clientConver.getConver().getId());
         clientConver.getClientConverPK().setClientid(clientConver.getClient().getId());
+        clientConver.getClientConverPK().setConverid(clientConver.getConver().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -99,8 +99,8 @@ public class ClientConverJpaController implements Serializable {
     }
 
     public void edit(ClientConver clientConver) throws NonexistentEntityException, Exception {
-        clientConver.getClientConverPK().setConverid(clientConver.getConver().getId());
         clientConver.getClientConverPK().setClientid(clientConver.getClient().getId());
+        clientConver.getClientConverPK().setConverid(clientConver.getConver().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

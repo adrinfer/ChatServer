@@ -8,6 +8,7 @@ package es.chatserver.utils;
 import java.text.SimpleDateFormat;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -53,8 +54,10 @@ public class Utils {
         
         node.setOnMouseReleased((event) -> {
             node.setCursor(Cursor.MOVE);
-            stage.setX(event.getScreenX() + dragDelta.x);
-            stage.setY(event.getScreenY() + dragDelta.y);
+            
+//            stage.setX(event.getScreenX() + dragDelta.x);
+//            stage.setY(event.getScreenY() + dragDelta.y);
+
         });
         
         node.setOnMouseClicked((event) -> {

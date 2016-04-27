@@ -47,28 +47,53 @@
                   <Accordion fx:id="leftAccordion">
                     <panes>
                       <TitledPane fx:id="titledPaneUsersList" animated="false" text="Usuarios online:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
                            <content>
-                              <ScrollPane fx:id="scrollPaneUsers" prefHeight="200.0" prefWidth="200.0">
-                                 <content>
-                                    <VBox fx:id="vBoxUserList" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: black;" />
-                                 </content>
-                              </ScrollPane>
+                              <VBox fx:id="vBoxUsersList" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <TextField fx:id="txtUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </TextField>
+                                    <ListView fx:id="listViewUserList" prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                           </content>
+                      </TitledPane>
+                        <TitledPane fx:id="titledPaneTotalUsersList" animated="false" layoutX="10.0" layoutY="10.0" text="Usuarios totales:">
+                           <content>
+                              <VBox fx:id="vBoxTotalUsersList" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <TextField fx:id="txtTotalUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </TextField>
+                                    <ListView fx:id="listViewTotalUserList" prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
                            </content>
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 2">
+                        </TitledPane>
+                      <TitledPane animated="false" text="Nuevo usuario">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 3">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-insets: 20;" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-insets: 20;">
+                                 <children>
+                                    <Label fx:id="lblNombre" layoutX="19.0" layoutY="18.0" text="Nombre:" />
+                                    <Label fx:id="lblNick" layoutX="40.0" layoutY="50.0" text="Nick:" />
+                                    <Label fx:id="lblPassword" layoutX="14.0" layoutY="81.0" text="Password:" />
+                                    <Label fx:id="lblEmail" layoutX="38.0" layoutY="113.0" text="Email:" />
+                                    <TextField fx:id="txtNombre" layoutX="79.0" layoutY="14.0" prefWidth="110.0" />
+                                    <TextField fx:id="txtNick" layoutX="78.0" layoutY="46.0" prefWidth="110.0" />
+                                    <PasswordField fx:id="txtPassword" layoutX="78.0" layoutY="77.0" prefWidth="110.0" />
+                                    <TextField fx:id="txtEmail" layoutX="78.0" layoutY="109.0" prefWidth="110.0" />
+                                    <Button fx:id="btnRegistrar" layoutX="66.0" layoutY="141.0" mnemonicParsing="false" text="Registrar" />
+                                 </children></AnchorPane>
                         </content>
                            <font>
                               <Font name="System Bold" size="12.0" />

@@ -16,13 +16,14 @@ import javax.persistence.criteria.Root;
 import es.chatserver.model.ClientConver;
 import java.util.ArrayList;
 import java.util.Collection;
+import es.chatserver.model.Incidencias;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 public class ClientJpaController implements Serializable {
 
@@ -39,6 +40,9 @@ public class ClientJpaController implements Serializable {
         if (client.getClientConverCollection() == null) {
             client.setClientConverCollection(new ArrayList<ClientConver>());
         }
+        if (client.getIncidenciasCollection() == null) {
+            client.setIncidenciasCollection(new ArrayList<Incidencias>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -49,6 +53,12 @@ public class ClientJpaController implements Serializable {
                 attachedClientConverCollection.add(clientConverCollectionClientConverToAttach);
             }
             client.setClientConverCollection(attachedClientConverCollection);
+            Collection<Incidencias> attachedIncidenciasCollection = new ArrayList<Incidencias>();
+            for (Incidencias incidenciasCollectionIncidenciasToAttach : client.getIncidenciasCollection()) {
+                incidenciasCollectionIncidenciasToAttach = em.getReference(incidenciasCollectionIncidenciasToAttach.getClass(), incidenciasCollectionIncidenciasToAttach.getId());
+                attachedIncidenciasCollection.add(incidenciasCollectionIncidenciasToAttach);
+            }
+            client.setIncidenciasCollection(attachedIncidenciasCollection);
             em.persist(client);
             for (ClientConver clientConverCollectionClientConver : client.getClientConverCollection()) {
                 Client oldClientOfClientConverCollectionClientConver = clientConverCollectionClientConver.getClient();
@@ -57,6 +67,15 @@ public class ClientJpaController implements Serializable {
                 if (oldClientOfClientConverCollectionClientConver != null) {
                     oldClientOfClientConverCollectionClientConver.getClientConverCollection().remove(clientConverCollectionClientConver);
                     oldClientOfClientConverCollectionClientConver = em.merge(oldClientOfClientConverCollectionClientConver);
+                }
+            }
+            for (Incidencias incidenciasCollectionIncidencias : client.getIncidenciasCollection()) {
+                Client oldClientidOfIncidenciasCollectionIncidencias = incidenciasCollectionIncidencias.getClientid();
+                incidenciasCollectionIncidencias.setClientid(client);
+                incidenciasCollectionIncidencias = em.merge(incidenciasCollectionIncidencias);
+                if (oldClientidOfIncidenciasCollectionIncidencias != null) {
+                    oldClientidOfIncidenciasCollectionIncidencias.getIncidenciasCollection().remove(incidenciasCollectionIncidencias);
+                    oldClientidOfIncidenciasCollectionIncidencias = em.merge(oldClientidOfIncidenciasCollectionIncidencias);
                 }
             }
             em.getTransaction().commit();
@@ -75,6 +94,8 @@ public class ClientJpaController implements Serializable {
             Client persistentClient = em.find(Client.class, client.getId());
             Collection<ClientConver> clientConverCollectionOld = persistentClient.getClientConverCollection();
             Collection<ClientConver> clientConverCollectionNew = client.getClientConverCollection();
+            Collection<Incidencias> incidenciasCollectionOld = persistentClient.getIncidenciasCollection();
+            Collection<Incidencias> incidenciasCollectionNew = client.getIncidenciasCollection();
             List<String> illegalOrphanMessages = null;
             for (ClientConver clientConverCollectionOldClientConver : clientConverCollectionOld) {
                 if (!clientConverCollectionNew.contains(clientConverCollectionOldClientConver)) {
@@ -94,6 +115,13 @@ public class ClientJpaController implements Serializable {
             }
             clientConverCollectionNew = attachedClientConverCollectionNew;
             client.setClientConverCollection(clientConverCollectionNew);
+            Collection<Incidencias> attachedIncidenciasCollectionNew = new ArrayList<Incidencias>();
+            for (Incidencias incidenciasCollectionNewIncidenciasToAttach : incidenciasCollectionNew) {
+                incidenciasCollectionNewIncidenciasToAttach = em.getReference(incidenciasCollectionNewIncidenciasToAttach.getClass(), incidenciasCollectionNewIncidenciasToAttach.getId());
+                attachedIncidenciasCollectionNew.add(incidenciasCollectionNewIncidenciasToAttach);
+            }
+            incidenciasCollectionNew = attachedIncidenciasCollectionNew;
+            client.setIncidenciasCollection(incidenciasCollectionNew);
             client = em.merge(client);
             for (ClientConver clientConverCollectionNewClientConver : clientConverCollectionNew) {
                 if (!clientConverCollectionOld.contains(clientConverCollectionNewClientConver)) {
@@ -103,6 +131,23 @@ public class ClientJpaController implements Serializable {
                     if (oldClientOfClientConverCollectionNewClientConver != null && !oldClientOfClientConverCollectionNewClientConver.equals(client)) {
                         oldClientOfClientConverCollectionNewClientConver.getClientConverCollection().remove(clientConverCollectionNewClientConver);
                         oldClientOfClientConverCollectionNewClientConver = em.merge(oldClientOfClientConverCollectionNewClientConver);
+                    }
+                }
+            }
+            for (Incidencias incidenciasCollectionOldIncidencias : incidenciasCollectionOld) {
+                if (!incidenciasCollectionNew.contains(incidenciasCollectionOldIncidencias)) {
+                    incidenciasCollectionOldIncidencias.setClientid(null);
+                    incidenciasCollectionOldIncidencias = em.merge(incidenciasCollectionOldIncidencias);
+                }
+            }
+            for (Incidencias incidenciasCollectionNewIncidencias : incidenciasCollectionNew) {
+                if (!incidenciasCollectionOld.contains(incidenciasCollectionNewIncidencias)) {
+                    Client oldClientidOfIncidenciasCollectionNewIncidencias = incidenciasCollectionNewIncidencias.getClientid();
+                    incidenciasCollectionNewIncidencias.setClientid(client);
+                    incidenciasCollectionNewIncidencias = em.merge(incidenciasCollectionNewIncidencias);
+                    if (oldClientidOfIncidenciasCollectionNewIncidencias != null && !oldClientidOfIncidenciasCollectionNewIncidencias.equals(client)) {
+                        oldClientidOfIncidenciasCollectionNewIncidencias.getIncidenciasCollection().remove(incidenciasCollectionNewIncidencias);
+                        oldClientidOfIncidenciasCollectionNewIncidencias = em.merge(oldClientidOfIncidenciasCollectionNewIncidencias);
                     }
                 }
             }
@@ -145,6 +190,11 @@ public class ClientJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Collection<Incidencias> incidenciasCollection = client.getIncidenciasCollection();
+            for (Incidencias incidenciasCollectionIncidencias : incidenciasCollection) {
+                incidenciasCollectionIncidencias.setClientid(null);
+                incidenciasCollectionIncidencias = em.merge(incidenciasCollectionIncidencias);
             }
             em.remove(client);
             em.getTransaction().commit();

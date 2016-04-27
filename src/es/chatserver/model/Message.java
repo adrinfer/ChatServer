@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 @Entity
 @Table(name = "message")
@@ -60,14 +60,8 @@ public class Message implements Serializable {
     public Message() {
     }
 
-    public Message(String msg)
-    {
-        this.text = msg;
-    }
-    
     public Message(Integer id) {
         this.id = id;
-        
     }
 
     public Integer getId() {

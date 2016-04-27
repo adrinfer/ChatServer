@@ -47,17 +47,27 @@ public class Main extends Application {
     //Cargar css utilizados - Debe ser llamado despues de crear la escena.
     private void loadStyles()
     {
-        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/scrollBar.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/mainBorderPaneBorders.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/styles.css").toExternalForm());
     }
     
+    private static Stage primaryStage;
+    
+    public static Stage getPrimaryStage()
+    {
+        return primaryStage;
+    }
+    
+    public static void setPrimaryStage(Stage stage)
+    {
+        Main.primaryStage = stage;
+    }
     
     @Override
     public void start(Stage stage) throws Exception {
         
-        
+        setPrimaryStage(stage);
         //Crear así el controlador para tener acceso al stage
-        ServerGuiController controllerGUI = new ServerGuiController(stage);
+        ServerGuiController controllerGUI = ServerGuiController.getInstance();
         
         //Cargar FXML principal        
         loader = new FXMLLoader(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));

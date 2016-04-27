@@ -6,14 +6,17 @@
 package es.chatserver.styles;
     
 import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+
 
 /**
  *
  * @author adrinfer
  */
-public class UserLabel extends Label {
+public class UserLabel extends MenuButton {
     
     
     //Atributos
@@ -21,15 +24,22 @@ public class UserLabel extends Label {
     //Supongo que se necesitara el cliente al que representa el label para poder darle accion al label
     //private Client cliente;
     
-    public UserLabel(String txt, Pane parent)
+    public UserLabel(String txt, ListView listView)
     {
         super(txt);
         
         this.getStyleClass().add("userLabel");
         this.setPadding(new Insets(0,0,0,25));
-        this.minWidthProperty().bind(parent.minWidthProperty());
-        this.maxWidthProperty().bind(parent.maxWidthProperty());
-        this.prefWidthProperty().bind(parent.prefWidthProperty());
+        this.minWidthProperty().bind(listView.minWidthProperty());
+        this.maxWidthProperty().bind(listView.maxWidthProperty());
+        this.prefWidthProperty().bind(listView.prefWidthProperty());
+        
+        this.getItems().add(new UserLabelItem("Texto 1"));
+
+        this.getItems().add(new UserLabelItem("Texto 2"));
+
+        
+        this.popupSideProperty().set(Side.RIGHT);
         
         
         

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 @Entity
 @Table(name = "client")
@@ -34,10 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
     @NamedQuery(name = "Client.findById", query = "SELECT c FROM Client c WHERE c.id = :id"),
+    @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email = :email"),
     @NamedQuery(name = "Client.findByNick", query = "SELECT c FROM Client c WHERE c.nick = :nick"),
     @NamedQuery(name = "Client.findByPass", query = "SELECT c FROM Client c WHERE c.pass = :pass"),
     @NamedQuery(name = "Client.findByRegistro", query = "SELECT c FROM Client c WHERE c.registro = :registro"),
-    @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email = :email")})
+    @NamedQuery(name = "Client.findByNombre", query = "SELECT c FROM Client c WHERE c.nombre = :nombre")})
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +47,8 @@ public class Client implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "email")
+    private String email;
     @Column(name = "nick")
     private String nick;
     @Column(name = "pass")
@@ -53,19 +56,33 @@ public class Client implements Serializable {
     @Column(name = "registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registro;
-    @Column(name = "email")
-    private String email;
+    @Column(name = "nombre")
+    private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<ClientConver> clientConverCollection;
+    @OneToMany(mappedBy = "clientid")
+    private Collection<Incidencias> incidenciasCollection;
 
     public Client() {
     }
-
-    public Client(String nick)
+    
+    public Client(String nick, String pass)
     {
         this.nick = nick;
+        this.pass = pass;
+        this.email = "-";
+        this.registro = new Date();
     }
     
+    public Client(String nombre, String nick, String pass, String email)
+    {
+        this.nombre = nombre;
+        this.nick = nick;
+        this.pass = pass;
+        this.email = email;
+        this.registro = new Date();
+    }
+
     public Client(Integer id) {
         this.id = id;
     }
@@ -76,6 +93,14 @@ public class Client implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getNick() {
@@ -102,12 +127,12 @@ public class Client implements Serializable {
         this.registro = registro;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     @XmlTransient
@@ -117,6 +142,15 @@ public class Client implements Serializable {
 
     public void setClientConverCollection(Collection<ClientConver> clientConverCollection) {
         this.clientConverCollection = clientConverCollection;
+    }
+
+    @XmlTransient
+    public Collection<Incidencias> getIncidenciasCollection() {
+        return incidenciasCollection;
+    }
+
+    public void setIncidenciasCollection(Collection<Incidencias> incidenciasCollection) {
+        this.incidenciasCollection = incidenciasCollection;
     }
 
     @Override

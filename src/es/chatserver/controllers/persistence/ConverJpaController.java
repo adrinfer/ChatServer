@@ -22,7 +22,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author adrinfer
+ * @author Practicas01
  */
 public class ConverJpaController implements Serializable {
 

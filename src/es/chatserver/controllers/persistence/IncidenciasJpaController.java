@@ -11,8 +11,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import es.chatserver.model.ClientConver;
-import es.chatserver.model.Message;
+import es.chatserver.model.Client;
+import es.chatserver.model.Incidencias;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,9 +21,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Practicas01
  */
-public class MessageJpaController implements Serializable {
+public class IncidenciasJpaController implements Serializable {
 
-    public MessageJpaController(EntityManagerFactory emf) {
+    public IncidenciasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -32,20 +32,20 @@ public class MessageJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Message message) {
+    public void create(Incidencias incidencias) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            ClientConver clientConver = message.getClientConver();
-            if (clientConver != null) {
-                clientConver = em.getReference(clientConver.getClass(), clientConver.getClientConverPK());
-                message.setClientConver(clientConver);
+            Client clientid = incidencias.getClientid();
+            if (clientid != null) {
+                clientid = em.getReference(clientid.getClass(), clientid.getId());
+                incidencias.setClientid(clientid);
             }
-            em.persist(message);
-            if (clientConver != null) {
-                clientConver.getMessageCollection().add(message);
-                clientConver = em.merge(clientConver);
+            em.persist(incidencias);
+            if (clientid != null) {
+                clientid.getIncidenciasCollection().add(incidencias);
+                clientid = em.merge(clientid);
             }
             em.getTransaction().commit();
         } finally {
@@ -55,34 +55,34 @@ public class MessageJpaController implements Serializable {
         }
     }
 
-    public void edit(Message message) throws NonexistentEntityException, Exception {
+    public void edit(Incidencias incidencias) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Message persistentMessage = em.find(Message.class, message.getId());
-            ClientConver clientConverOld = persistentMessage.getClientConver();
-            ClientConver clientConverNew = message.getClientConver();
-            if (clientConverNew != null) {
-                clientConverNew = em.getReference(clientConverNew.getClass(), clientConverNew.getClientConverPK());
-                message.setClientConver(clientConverNew);
+            Incidencias persistentIncidencias = em.find(Incidencias.class, incidencias.getId());
+            Client clientidOld = persistentIncidencias.getClientid();
+            Client clientidNew = incidencias.getClientid();
+            if (clientidNew != null) {
+                clientidNew = em.getReference(clientidNew.getClass(), clientidNew.getId());
+                incidencias.setClientid(clientidNew);
             }
-            message = em.merge(message);
-            if (clientConverOld != null && !clientConverOld.equals(clientConverNew)) {
-                clientConverOld.getMessageCollection().remove(message);
-                clientConverOld = em.merge(clientConverOld);
+            incidencias = em.merge(incidencias);
+            if (clientidOld != null && !clientidOld.equals(clientidNew)) {
+                clientidOld.getIncidenciasCollection().remove(incidencias);
+                clientidOld = em.merge(clientidOld);
             }
-            if (clientConverNew != null && !clientConverNew.equals(clientConverOld)) {
-                clientConverNew.getMessageCollection().add(message);
-                clientConverNew = em.merge(clientConverNew);
+            if (clientidNew != null && !clientidNew.equals(clientidOld)) {
+                clientidNew.getIncidenciasCollection().add(incidencias);
+                clientidNew = em.merge(clientidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = message.getId();
-                if (findMessage(id) == null) {
-                    throw new NonexistentEntityException("The message with id " + id + " no longer exists.");
+                Integer id = incidencias.getId();
+                if (findIncidencias(id) == null) {
+                    throw new NonexistentEntityException("The incidencias with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -98,19 +98,19 @@ public class MessageJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Message message;
+            Incidencias incidencias;
             try {
-                message = em.getReference(Message.class, id);
-                message.getId();
+                incidencias = em.getReference(Incidencias.class, id);
+                incidencias.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The message with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The incidencias with id " + id + " no longer exists.", enfe);
             }
-            ClientConver clientConver = message.getClientConver();
-            if (clientConver != null) {
-                clientConver.getMessageCollection().remove(message);
-                clientConver = em.merge(clientConver);
+            Client clientid = incidencias.getClientid();
+            if (clientid != null) {
+                clientid.getIncidenciasCollection().remove(incidencias);
+                clientid = em.merge(clientid);
             }
-            em.remove(message);
+            em.remove(incidencias);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -119,19 +119,19 @@ public class MessageJpaController implements Serializable {
         }
     }
 
-    public List<Message> findMessageEntities() {
-        return findMessageEntities(true, -1, -1);
+    public List<Incidencias> findIncidenciasEntities() {
+        return findIncidenciasEntities(true, -1, -1);
     }
 
-    public List<Message> findMessageEntities(int maxResults, int firstResult) {
-        return findMessageEntities(false, maxResults, firstResult);
+    public List<Incidencias> findIncidenciasEntities(int maxResults, int firstResult) {
+        return findIncidenciasEntities(false, maxResults, firstResult);
     }
 
-    private List<Message> findMessageEntities(boolean all, int maxResults, int firstResult) {
+    private List<Incidencias> findIncidenciasEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Message.class));
+            cq.select(cq.from(Incidencias.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -143,20 +143,20 @@ public class MessageJpaController implements Serializable {
         }
     }
 
-    public Message findMessage(Integer id) {
+    public Incidencias findIncidencias(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Message.class, id);
+            return em.find(Incidencias.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getMessageCount() {
+    public int getIncidenciasCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Message> rt = cq.from(Message.class);
+            Root<Incidencias> rt = cq.from(Incidencias.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -6,26 +6,28 @@
 package es.chatserver.controllers.viewcontrollers;
 
 
+import chatserver.Main;
 import es.chatserver.controllers.persistence.PersistenceController;
 import es.chatserver.model.Client;
-import es.chatserver.model.ClientConver;
-import es.chatserver.model.ClientConverPK;
-import es.chatserver.model.Conver;
-import es.chatserver.model.Message;
 import es.chatserver.styles.UserLabel;
 import es.chatserver.utils.Utils;
 import java.awt.Rectangle;
 import java.net.URL;
-import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Background;
@@ -73,8 +75,35 @@ public class ServerGuiController implements Initializable {
     @FXML
     private Accordion leftAccordion;
     
+    
+    // ----- LISTADO DE USUARIOS ONLINE ----- //
     @FXML
     private TitledPane titledPaneUsersList;
+    
+    @FXML
+    private VBox vBoxUsersList;
+    
+    @FXML
+    private TextField txtUserFilter;
+    
+    @FXML
+    private ListView listViewUserList;
+    
+    
+    // ----- LISTADO DE USUARIOS TOTALES ----- //
+    @FXML
+    private TitledPane titledPaneTotalUsersList;
+    
+    @FXML
+    private VBox vBoxTotalUsersList;
+    
+    @FXML
+    private TextField txtTotalUserFilter;
+    
+    @FXML
+    private ListView listViewTotalUserList;
+    
+    
     
     @FXML
     private VBox rightPane;
@@ -85,8 +114,10 @@ public class ServerGuiController implements Initializable {
     @FXML
     private TitledPane titledPaneUsers;
     
-    @FXML
-    private VBox vBoxUserList;
+
+    
+
+
    
     @FXML
     private Label lblStatus;
@@ -97,17 +128,58 @@ public class ServerGuiController implements Initializable {
     @FXML
     private ToggleButton butStartStop;
     
+    @FXML
+    private TextField txtNombre;
+    
+    @FXML
+    private TextField txtNick;
+    
+    @FXML
+    private TextField txtPassword;
+    
+    @FXML
+    private TextField txtEmail;
+    
+    @FXML
+    private Button btnRegistrar;
+    
     private String server = null;
     
-    private final Stage stage;
-    
+ 
+    //Instancia del PersistenceControler 
     private final PersistenceController perController = PersistenceController.getInstance();
 
     
-    //Constructor, se obtiene el stage
-    public ServerGuiController(final Stage stage)
+    
+    private static ServerGuiController instance = null;
+    private final  static  Lock instanciationLock = new ReentrantLock();
+    
+    private ServerGuiController()
     {
-        this.stage = stage;
+        
+    }
+    
+    public static ServerGuiController getInstance()
+    {
+        
+         if(instance == null)
+         {
+            instanciationLock.lock();
+
+            try
+            {
+                if (instance == null)//Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
+                {
+                    instance = new ServerGuiController();
+                }
+            }
+            finally
+            {
+                instanciationLock.unlock();
+            }
+        }
+                    return instance;
+
     }
     
     
@@ -141,70 +213,7 @@ public class ServerGuiController implements Initializable {
 
     
     private void setBindings()
-    {
-
-        
-//        Client client = new Client("adrinfer");
-//        
-//        ClientConver clientConver = new ClientConver();
-//        clientConver.setAdmin(Boolean.TRUE);
-//        clientConver.setMod(Boolean.FALSE);
-//        
-//        perController.persist(client);
-//        
-//        clientConver.setClient(client);
-//        
-//        Conver conver2 = new Conver();
-//        perController.persist(conver2);
-//        clientConver.setConver(conver2);
-//        
-//        
-//        Message msg = new Message();
-//        
-//        msg.setClientConver(clientConver);
-//        
-//        perController.persist(clientConver);
-//        
-//        
-//        perController.persist(msg);
-//        
-//        Client client2 = new Client("adrinfer2");
-//        
-//
-//        //AÑADIR MENSAJE DE CLIENTE EXISTENTE
-//        Message mensaje = new Message();
-//        
-//        Client clienteUno = perController.findClient(1);
-//        Conver converUno = perController.findConver(1);
-//
-//        
-//        
-//        ClientConver clienteConversacion = perController.findClientConver(new ClientConverPK(3,1));       
-//
-//        
-//        Message msg2 = new Message("Mensaje user 3");
-//        msg2.setClientConver(clienteConversacion);
-//        perController.persist(msg2);
-        
-
-        
-//        //AÑADIR CLIENTE
-        Client cliente3 = new Client("Shaito2");
-        perController.persist(cliente3);
-        
-        ClientConver clientConver3 = new ClientConver();
-        clientConver3.setClient(cliente3);
-        clientConver3.setAdmin(false);
-        clientConver3.setMod(Boolean.TRUE);
-        Conver c = new Conver();
-        c.setDate(new Date());
-        perController.persist(c);
-        clientConver3.setConver(c);
-        
-        perController.persist(clientConver3);
-        
-        
-        
+    {    
         
         //leftPane - widthProperty
         leftPane.minWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.25));
@@ -218,12 +227,75 @@ public class ServerGuiController implements Initializable {
         leftPane.prefHeightProperty().bind(mainBorderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
        
         
-        leftAccordion.minWidthProperty().bind(leftPane.widthProperty().subtract(14));
-        leftAccordion.maxWidthProperty().bind(leftPane.widthProperty().subtract(14));
-        leftAccordion.prefWidthProperty().bind(leftPane.widthProperty().subtract(14));
+        leftAccordion.minWidthProperty().bind(leftPane.widthProperty().subtract(15));
+        leftAccordion.maxWidthProperty().bind(leftPane.widthProperty().subtract(15));
+        leftAccordion.prefWidthProperty().bind(leftPane.widthProperty().subtract(15));
         
         
-        //rightPane - width binding
+
+        // ----- BIND APARTADO USUARIOS ONLINE ----- //
+  
+        //Ajustar el titlePane a su padre leftAcordion (el cual tiene su binding)
+        titledPaneUsersList.minWidthProperty().bind(leftAccordion.widthProperty());
+        titledPaneUsersList.maxWidthProperty().bind(leftAccordion.widthProperty());
+        titledPaneUsersList.prefWidthProperty().bind(leftAccordion.widthProperty());
+        
+        
+        //Bind del VBox donde esta el TextField para filtrar, y el ListView de lista de usuarios
+        vBoxUsersList.minWidthProperty().bind(titledPaneUsersList.minWidthProperty());
+        vBoxUsersList.maxWidthProperty().bind(titledPaneUsersList.maxWidthProperty());
+        vBoxUsersList.prefWidthProperty().bind(titledPaneUsersList.prefWidthProperty());
+        
+        
+        
+        //Bind del TextField para filtrar en la lista de usuarios
+        //El substract es para separarlo de los lados (en sceneBuilder se mueve 10 px a la derecha)
+        txtUserFilter.minWidthProperty().bind(vBoxUsersList.minWidthProperty().subtract(35));
+        txtUserFilter.maxWidthProperty().bind(vBoxUsersList.maxWidthProperty().subtract(35));
+        txtUserFilter.prefWidthProperty().bind(vBoxUsersList.prefWidthProperty().subtract(35));
+        
+        
+        //ListView que almacena los label del listado de usuarios (en el leftPane)
+        listViewUserList.minWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        listViewUserList.maxWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        listViewUserList.prefWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        
+        // ----- FIN BIND APARTADO USUARIOS ONLINE ----- //
+        
+        
+        
+        // ----- BIND APARTADO USUARIOS TOTALES ----- //
+        
+        //Ajustar el titlePane a su padre leftAcordion (el cual tiene su binding)
+        titledPaneTotalUsersList.minWidthProperty().bind(leftAccordion.widthProperty());
+        titledPaneTotalUsersList.maxWidthProperty().bind(leftAccordion.widthProperty());
+        titledPaneTotalUsersList.prefWidthProperty().bind(leftAccordion.widthProperty());
+        
+        
+        //Bind del VBox donde esta el TextField para filtrar, y el ListView de lista de usuarios
+        vBoxTotalUsersList.minWidthProperty().bind(titledPaneUsersList.minWidthProperty());
+        vBoxTotalUsersList.maxWidthProperty().bind(titledPaneUsersList.maxWidthProperty());
+        vBoxTotalUsersList.prefWidthProperty().bind(titledPaneUsersList.prefWidthProperty());
+        
+        
+        //Bind del TextField para filtrar en la lista de usuarios
+        //El substract es para separarlo de los lados (en sceneBuilder se mueve 10 px a la derecha)
+        txtTotalUserFilter.minWidthProperty().bind(vBoxUsersList.minWidthProperty().subtract(35));
+        txtTotalUserFilter.maxWidthProperty().bind(vBoxUsersList.maxWidthProperty().subtract(35));
+        txtTotalUserFilter.prefWidthProperty().bind(vBoxUsersList.prefWidthProperty().subtract(35));
+        
+        
+        //ListView que almacena los label del listado de usuarios (en el leftPane)
+        listViewTotalUserList.minWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        listViewTotalUserList.maxWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        listViewTotalUserList.prefWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
+        
+
+        
+        // ----- FIN BIND APARTADO USUARIOS TOTALES ----- //
+        
+        
+          //rightPane - width binding
 //        rightPane.minWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
 //        rightPane.maxWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
 //        rightPane.prefWidthProperty().bind(mainBorderPane.widthProperty().multiply(0.2));
@@ -233,44 +305,22 @@ public class ServerGuiController implements Initializable {
 //        rightPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
 //        rightPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
         
-  
-        //lblTitleUsers - width binding
-        titledPaneUsersList.minWidthProperty().bind(leftAccordion.widthProperty());
-        titledPaneUsersList.maxWidthProperty().bind(leftAccordion.widthProperty());
-        titledPaneUsersList.prefWidthProperty().bind(leftAccordion.widthProperty());
-        
-        
-        //scrollPaneUsers - width binding - contiene la lista de usuarios
-        scrollPaneUsers.minWidthProperty().bind(titledPaneUsersList.widthProperty());
-        scrollPaneUsers.maxWidthProperty().bind(titledPaneUsersList.widthProperty());
-        scrollPaneUsers.prefWidthProperty().bind(titledPaneUsersList.widthProperty());
-        
-        //vBox que almacena los label del listado de usuarios (en el leftPane)
-        vBoxUserList.minWidthProperty().bind(scrollPaneUsers.widthProperty());
-        vBoxUserList.maxWidthProperty().bind(scrollPaneUsers.widthProperty());
-        vBoxUserList.prefWidthProperty().bind(scrollPaneUsers.widthProperty());
-        
-        
-   
-        //scrollPaneUsers - height binding - contiene la lista de usuarios
-//        scrollPaneUsers.minHeightProperty().bind(titledPaneUsersList.heightProperty());
-//        scrollPaneUsers.maxHeightProperty().bind(titledPaneUsersList.heightProperty());
-//        scrollPaneUsers.prefHeightProperty().bind(titledPaneUsersList.heightProperty());
-        
     }
     
     
     private void init()
     {
+   
+        
         //Hacer que la ventana(stage), se pueda arrastrar con el topPane y bottomPane
-        Utils.makeDraggable(stage, topPane);
-        Utils.makeDraggable(stage, bottomPane);
+        Utils.makeDraggable(Main.getPrimaryStage(), topPane);
+        Utils.makeDraggable(Main.getPrimaryStage(), bottomPane);
         
         //Inicializar unión de los paneles y su ajuste (interfaz gráfica)
         setBindings();
         
         //Quitar barra de scroll horizontal de la lista de usuarios
-        scrollPaneUsers.setHbarPolicy(ScrollBarPolicy.NEVER);
+        
         
         //Establecer color de los paneStatus iniciales
         topPaneStatus.getStyleClass().add("stopped");
@@ -280,21 +330,75 @@ public class ServerGuiController implements Initializable {
         textArea.setEditable(false);
 
         
-
-        Label l;
-        for(int x = 0; x <= 50; x++)
-        {
-            l = new UserLabel("Texto label: " + x , vBoxUserList);
-
-            vBoxUserList.getChildren().add(l);
-            
-        }
+        btnRegistrar.setOnAction((event) -> 
+                this.addUser(txtNombre.getText(), txtNick.getText(), txtPassword.getText(), txtEmail.getText())
+        );
         
+        List<Client> lista = perController.findClientEntities();
+        
+        txtUserFilter.setOnKeyReleased((event) -> { 
+            System.out.println("CLICK");
+            
+            listViewUserList.getItems().clear();
+            if(!txtUserFilter.getText().equals(""))
+            {
+                System.out.println("DENTRO");
+                lista.stream().map((c) -> new UserLabel(c.getNick(), listViewUserList)).forEach((l) -> {
+                    
+                    
+                    if(l.getText().contains(txtUserFilter.getText()))
+                    {
+                        listViewUserList.getItems().add(l);
+                    }
+                    
+                }); 
+            }
+            else
+            {
+                lista.stream().map((c) -> new UserLabel(c.getNick(), listViewUserList)).forEach((l) -> {
+                    
+                    listViewUserList.getItems().add(l);
+
+                }); 
+            }
+            
+        });
+        
+//        for(int x = 0; x < 30; x++)
+//        {
+//            Client c = new Client("" + x + "adri " + x, "pass"+x);
+//            perController.persist(c);
+//        }
+        
+        
+        
+             
+  
+        
+        
+        
+        
+
     }
+        
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         init();
-    }    
+    }  
+    
+    
+    
+    
+    // ACCIONES
+    
+    
+    //Añadir nuevo usuario
+    public void addUser(String nombre, String nick, String pass, String email)
+    {
+        Client nuevoCliente = new Client(nombre, nick, pass, email);
+        perController.persist(nuevoCliente);
+        System.out.println("AAAAAAAAAAAAAAAAAa");
+    }
     
 }
