@@ -218,7 +218,7 @@ and open the template in the editor.
 *********************/
 
 .stopped {
-    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 55% , red,  #A10000);
+    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 55% , red,  #720000);
     
 }
 

@@ -17,7 +17,6 @@ import javafx.animation.ScaleTransitionBuilder;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,14 +37,11 @@ public class Decorator extends AnchorPane {
     private double oldX;
     private double oldY;
     
+    
     //Constructor
     public Decorator(Stage stage, Node node) {
         
         super();
-
-        Accordion a = new Accordion();
-        
-        
         
         this.stage = stage;
         this.setPadding(new Insets(0, 0, 0, 0));
@@ -126,7 +122,7 @@ public class Decorator extends AnchorPane {
                 stage.setWidth(newWidth);
             }
             
-            if(newHeight >= 400)
+            if(newHeight >= 430)
             {
                 stage.setHeight(newHeight);
             }

@@ -25,7 +25,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -37,7 +36,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
 
 
 /**
@@ -104,29 +102,13 @@ public class ServerGuiController implements Initializable {
     private ListView listViewTotalUserList;
     
     
+    // ----- NUEVO USUARIO ----- //
     
     @FXML
-    private VBox rightPane;
+    private TitledPane titledPaneNewUser;
     
     @FXML
-    private TextArea textArea;
-    
-    @FXML
-    private TitledPane titledPaneUsers;
-    
-
-    
-
-
-   
-    @FXML
-    private Label lblStatus;
-
-    @FXML
-    private ScrollPane scrollPaneUsers;
-    
-    @FXML
-    private ToggleButton butStartStop;
+    private VBox vBoxNewUser;
     
     @FXML
     private TextField txtNombre;
@@ -140,6 +122,27 @@ public class ServerGuiController implements Initializable {
     @FXML
     private TextField txtEmail;
     
+    
+    @FXML
+    private VBox rightPane;
+    
+    @FXML
+    private TextArea textArea;
+    
+    @FXML
+    private TitledPane titledPaneUsers;
+
+   
+    @FXML
+    private Label lblStatus;
+
+    @FXML
+    private ScrollPane scrollPaneUsers;
+    
+    @FXML
+    private ToggleButton butStartStop; 
+
+    
     @FXML
     private Button btnRegistrar;
     
@@ -152,7 +155,7 @@ public class ServerGuiController implements Initializable {
     
     
     private static ServerGuiController instance = null;
-    private final  static  Lock instanciationLock = new ReentrantLock();
+    private final  static  Lock INSTANCIATION_LOCK = new ReentrantLock();
     
     private ServerGuiController()
     {
@@ -164,7 +167,7 @@ public class ServerGuiController implements Initializable {
         
          if(instance == null)
          {
-            instanciationLock.lock();
+            INSTANCIATION_LOCK.lock();
 
             try
             {
@@ -175,10 +178,10 @@ public class ServerGuiController implements Initializable {
             }
             finally
             {
-                instanciationLock.unlock();
+                INSTANCIATION_LOCK.unlock();
             }
         }
-                    return instance;
+        return instance;
 
     }
     
@@ -227,6 +230,7 @@ public class ServerGuiController implements Initializable {
         leftPane.prefHeightProperty().bind(mainBorderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
        
         
+        //Acordeon dentro del leftPane
         leftAccordion.minWidthProperty().bind(leftPane.widthProperty().subtract(15));
         leftAccordion.maxWidthProperty().bind(leftPane.widthProperty().subtract(15));
         leftAccordion.prefWidthProperty().bind(leftPane.widthProperty().subtract(15));
@@ -289,10 +293,21 @@ public class ServerGuiController implements Initializable {
         listViewTotalUserList.minWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
         listViewTotalUserList.maxWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
         listViewTotalUserList.prefWidthProperty().bind(titledPaneUsersList.widthProperty().subtract(15));
-        
-
-        
+                
         // ----- FIN BIND APARTADO USUARIOS TOTALES ----- //
+        
+        
+        
+        vBoxNewUser.minHeightProperty().bind(titledPaneNewUser.minHeightProperty());
+        vBoxNewUser.maxHeightProperty().bind(titledPaneNewUser.maxHeightProperty());
+        vBoxNewUser.prefHeightProperty().bind(titledPaneNewUser.prefHeightProperty());
+        
+        //vBox con los text field para crear nuevo usuario
+        vBoxNewUser.minWidthProperty().bind(titledPaneNewUser.minWidthProperty());
+        vBoxNewUser.maxWidthProperty().bind(titledPaneNewUser.maxWidthProperty());
+        vBoxNewUser.prefWidthProperty().bind(titledPaneNewUser.prefWidthProperty());
+        
+        
         
         
           //rightPane - width binding
@@ -337,31 +352,23 @@ public class ServerGuiController implements Initializable {
         List<Client> lista = perController.findClientEntities();
         
         txtUserFilter.setOnKeyReleased((event) -> { 
-            System.out.println("CLICK");
             
             listViewUserList.getItems().clear();
             if(!txtUserFilter.getText().equals(""))
-            {
-                System.out.println("DENTRO");
-                lista.stream().map((c) -> new UserLabel(c.getNick(), listViewUserList)).forEach((l) -> {
-                    
-                    
-                    if(l.getText().contains(txtUserFilter.getText()))
+            { 
+                lista.stream().map((cliente) -> new UserLabel(cliente.getNick(), listViewUserList)).forEach((cliente) -> {               
+                    if(cliente.getText().contains(txtUserFilter.getText()))
                     {
-                        listViewUserList.getItems().add(l);
+                        listViewUserList.getItems().add(cliente);
                     }
-                    
                 }); 
             }
             else
             {
-                lista.stream().map((c) -> new UserLabel(c.getNick(), listViewUserList)).forEach((l) -> {
-                    
-                    listViewUserList.getItems().add(l);
-
+                lista.stream().map((cliente) -> new UserLabel(cliente.getNick(), listViewUserList)).forEach((cliente) -> {        
+                    listViewUserList.getItems().add(cliente);
                 }); 
             }
-            
         });
         
 //        for(int x = 0; x < 30; x++)

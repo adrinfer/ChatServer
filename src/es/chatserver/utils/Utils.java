@@ -42,6 +42,7 @@ public class Utils {
         });
         
         node.setOnMousePressed((event) -> {
+            stage.setOpacity(0.9);
             node.setCursor(Cursor.CLOSED_HAND);
             dragDelta.x = stage.getX() - event.getScreenX();
             dragDelta.y = stage.getY() - event.getScreenY();
@@ -54,7 +55,7 @@ public class Utils {
         
         node.setOnMouseReleased((event) -> {
             node.setCursor(Cursor.MOVE);
-            
+            stage.setOpacity(1);
 //            stage.setX(event.getScreenX() + dragDelta.x);
 //            stage.setY(event.getScreenY() + dragDelta.y);
 

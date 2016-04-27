@@ -27,7 +27,7 @@ import javax.persistence.Persistence;
 public class PersistenceController {
     
     private static PersistenceController instance = null;
-    private final  static  Lock instanciationLock = new ReentrantLock();
+    private final  static  Lock INSTANCIATION_LOCK = new ReentrantLock();
     private final EntityManagerFactory emf;
     
     private final ConverJpaController converJpa;
@@ -38,22 +38,24 @@ public class PersistenceController {
     public static PersistenceController getInstance()
     {
         
-               if (instance == null){
-        instanciationLock.lock();
-        
-        try
+        if (instance == null)
         {
-            if (instance == null)//Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
+            INSTANCIATION_LOCK.lock();
+
+            try
             {
-                instance = new PersistenceController();
+                if (instance == null) //Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
+                {
+                    instance = new PersistenceController();
+                }
+            }
+            finally
+            {
+                INSTANCIATION_LOCK.unlock();
             }
         }
-        finally
-        {
-            instanciationLock.unlock();
-        }
-               }
-                    return instance;
+        
+        return instance;
 
     }
     
