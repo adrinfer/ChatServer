@@ -11,9 +11,11 @@ package es.chatserver.views;
  */
 
 
+import chatserver.Main;
 import es.chatserver.resources.Images;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -37,6 +39,11 @@ public class Decorator extends AnchorPane {
     private double oldX;
     private double oldY;
     
+    //Buttons
+    private final Button btnMax;
+    private final Button btnClose;
+    private Button btnRes;
+    
     
     //Constructor
     public Decorator(Stage stage, Node node) {
@@ -54,7 +61,7 @@ public class Decorator extends AnchorPane {
         
                 
         //Boón para maximizar la ventana
-        Button btnMax = buildButton("Max",Images.getImage(Images.MAX_ICON), Images.getImage(Images.MAX_ICON_HOVER));
+        btnMax = buildButton("Max",Images.getImage(Images.MAX_ICON), Images.getImage(Images.MAX_ICON_HOVER));
         btnMax.setOnAction((event) -> {
             this.stage.setMaximized(!this.stage.isMaximized()); 
         });
@@ -66,7 +73,7 @@ public class Decorator extends AnchorPane {
        
         
         //Botón para cerrar la ventana
-        Button btnClose = buildButton("Close", Images.getImage(Images.CLOSE_ICON), Images.getImage(Images.CLOSE_ICON_HOVER));
+        btnClose = buildButton("Close", Images.getImage(Images.CLOSE_ICON), Images.getImage(Images.CLOSE_ICON_HOVER));
         
         btnClose.setOnAction((event) -> {
             
@@ -83,6 +90,14 @@ public class Decorator extends AnchorPane {
             //Cerrar cuando termine la animación
             scaleTransitionClose.setOnFinished((e) -> {
                 this.stage.close();
+                
+                //Comprobar que es primaryStage para cerrar toda la app
+                if(stage.getTitle().equals(Main.getPrimaryStage().getTitle()))
+                {
+                    Platform.exit(); //Cerrar toda la aplicación
+                }
+                        
+                
             
             });
             
@@ -96,7 +111,7 @@ public class Decorator extends AnchorPane {
         
         
         //Botón para redimensionar la ventana
-        Button btnRes = buildButton("Resize", Images.getImage(Images.RESIZE_ICON), Images.getImage(Images.RESIZE_ICON_HOVER));
+        btnRes = buildButton("Resize", Images.getImage(Images.RESIZE_ICON), Images.getImage(Images.RESIZE_ICON_HOVER));
           
         btnRes.setOnMousePressed((event) -> {
             btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_PRESSED)));
@@ -165,5 +180,15 @@ public class Decorator extends AnchorPane {
         
         return btn;
     } 
+    
+    public void setResizable(boolean value)
+    {
+            btnRes.setVisible(value);
+    }
+    
+    public void setMaxizable(boolean value)
+    {
+        btnMax.setVisible(value);
+    }
     
 }

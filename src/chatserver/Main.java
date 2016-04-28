@@ -10,6 +10,7 @@ import es.chatserver.views.Decorator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -52,27 +53,33 @@ public class Main extends Application {
     
     private static Stage primaryStage;
     
+    
+    
     public static Stage getPrimaryStage()
     {
         return primaryStage;
     }
     
-    public static void setPrimaryStage(Stage stage)
+    private static void setPrimaryStage(Stage stage)
     {
         Main.primaryStage = stage;
     }
+    
+    ServerGuiController controllerGUI; 
     
     @Override
     public void start(Stage stage) throws Exception {
         
         setPrimaryStage(stage);
-        //Crear así el controlador para tener acceso al stage
-        ServerGuiController controllerGUI = ServerGuiController.getInstance();
+        
+
+        
         
         //Cargar FXML principal        
         loader = new FXMLLoader(getClass().getResource("/es/chatserver/views/serverGUI.fxml"));
         
         //Asignar el controlador
+        controllerGUI = ServerGuiController.getInstance();
         loader.setController(controllerGUI);
         root = loader.load();
         
@@ -104,6 +111,8 @@ public class Main extends Application {
             .build();
 
         stage.show();
+        
+
         
         //Llamar a la animación después de mostrar el show
         scaleTransitionOpen.play();

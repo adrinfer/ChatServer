@@ -28,8 +28,8 @@ public class PersistenceController {
     
     private static PersistenceController instance = null;
     private final  static  Lock INSTANCIATION_LOCK = new ReentrantLock();
-    private final EntityManagerFactory emf;
     
+    private final EntityManagerFactory emf;
     private final ConverJpaController converJpa;
     private final ClientJpaController clientJpa;
     private final ClientConverJpaController clientConverJpa;
@@ -38,13 +38,13 @@ public class PersistenceController {
     public static PersistenceController getInstance()
     {
         
-        if (instance == null)
+        if(instance == null)
         {
             INSTANCIATION_LOCK.lock();
 
             try
             {
-                if (instance == null) //Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
+                if(instance == null) //Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
                 {
                     instance = new PersistenceController();
                 }

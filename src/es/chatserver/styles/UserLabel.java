@@ -5,11 +5,12 @@
  */
 package es.chatserver.styles;
     
+import es.chatserver.model.Client;
 import javafx.geometry.Insets;
 import javafx.geometry.Side;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 
 
 /**
@@ -22,28 +23,42 @@ public class UserLabel extends MenuButton {
     //Atributos
     
     //Supongo que se necesitara el cliente al que representa el label para poder darle accion al label
-    //private Client cliente;
+    private final Client client; //Cliente asociado al label
     
-    public UserLabel(String txt, ListView listView)
+    //Constructor parametrizado
+    public UserLabel(Client client, ListView listView)
     {
-        super(txt);
+        super(client.getNick());
+
+        this.client = client; 
         
         this.getStyleClass().add("userLabel");
         this.setPadding(new Insets(0,0,0,25));
         this.minWidthProperty().bind(listView.minWidthProperty());
         this.maxWidthProperty().bind(listView.maxWidthProperty());
         this.prefWidthProperty().bind(listView.prefWidthProperty());
-        
-        this.getItems().add(new UserLabelItem("Texto 1"));
-
-        this.getItems().add(new UserLabelItem("Texto 2"));
-
+ 
+  
+        this.addItem(new UserLabelItem("Modificar"));
+        this.addItem(new UserLabelItem("Borrar"));
+        this.addItem(new UserLabelItem("Bloquear"));
         
         this.popupSideProperty().set(Side.RIGHT);
         
         
-        
-        
+    }
+    
+    //Añadir item, al label
+    public void addItem(MenuItem item)
+    {
+        this.getItems().add(item);
+    }
+    
+    //Añadir item de tipo UserLabelItem, al label
+    private void addItem(UserLabelItem item)
+    {
+        item.setClient(client); //Asignarle cliente sobre el que recaen las acciones
+        this.getItems().add(item);
     }
     
 }

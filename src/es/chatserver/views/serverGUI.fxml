@@ -42,70 +42,78 @@
           <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox fx:id="leftPane" prefHeight="407.0" prefWidth="218.0" style="-fx-border-color: #B2B2AA; -fx-border-width: 7; -fx-background-color: white;" GridPane.rowSpan="3">
+            <Pane fx:id="centerPane" prefHeight="238.0" prefWidth="239.0" style="-fx-border-color: #B2B2AA; -fx-border-width: 7; -fx-background-color: red;" GridPane.columnSpan="4" GridPane.rowSpan="3">
                <children>
-                  <Accordion fx:id="leftAccordion">
-                    <panes>
-                      <TitledPane fx:id="titledPaneUsersList" animated="false" text="Usuarios online:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <content>
-                              <VBox fx:id="vBoxUsersList" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <TextField fx:id="txtUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </TextField>
-                                    <ListView fx:id="listViewUserList" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                           </content>
-                      </TitledPane>
-                        <TitledPane fx:id="titledPaneTotalUsersList" animated="false" layoutX="10.0" layoutY="10.0" text="Usuarios totales:">
-                           <content>
-                              <VBox fx:id="vBoxTotalUsersList" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <TextField fx:id="txtTotalUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </TextField>
-                                    <ListView fx:id="listViewTotalUserList" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                           </content>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </TitledPane>
-                      <TitledPane fx:id="titledPaneNewUser" animated="false" text="Nuevo usuario">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <content>
-                              <VBox fx:id="vBoxNewUser" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 10;">
-                                 <children>
-                                    <TextField fx:id="txtNombre" alignment="CENTER" prefWidth="110.0" promptText="Nombre" />
-                                    <TextField fx:id="txtNick" alignment="CENTER" prefHeight="25.0" prefWidth="142.0" promptText="Nick" />
-                                    <PasswordField fx:id="txtPassword" alignment="CENTER" prefWidth="110.0" promptText="Password" />
-                                    <TextField fx:id="txtEmail" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" promptText="Email" />
-                                    <Button fx:id="btnRegistrar" mnemonicParsing="false" text="Registrar" />
-                                 </children>
-                              </VBox>
-                           </content>
-                      </TitledPane>
-                    </panes>
-                  </Accordion>
+                  <ListView fx:id="listViewMessages" layoutX="7.0" layoutY="6.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
-               <opaqueInsets>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </opaqueInsets>
-            </VBox>
-            <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3" />
-            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-width: 7; -fx-border-color: #B2B2AA;" GridPane.columnIndex="3" GridPane.rowSpan="3" />
+            </Pane>
          </children>
       </GridPane>
    </center>
+   <left>
+      <VBox fx:id="leftPane" prefHeight="407.0" prefWidth="218.0" style="-fx-border-color: #B2B2AA; -fx-border-width: 7; -fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Accordion fx:id="leftAccordion">
+              <panes>
+                <TitledPane fx:id="titledPaneUsersList" animated="false" text="Usuarios online:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <content>
+                        <VBox fx:id="vBoxUsersList" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <TextField fx:id="txtUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <ListView fx:id="listViewUserList" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                  <TitledPane fx:id="titledPaneTotalUsersList" animated="false" layoutX="10.0" layoutY="10.0" text="Usuarios totales:">
+                     <content>
+                        <VBox fx:id="vBoxTotalUsersList" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <TextField fx:id="txtTotalUserFilter" promptText="Filtrar" translateX="10.0" translateY="-7.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <ListView fx:id="listViewTotalUserList" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </TitledPane>
+                <TitledPane fx:id="titledPaneNewUser" animated="false" text="Nuevo usuario">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <content>
+                        <VBox fx:id="vBoxNewUser" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 10;">
+                           <children>
+                              <TextField fx:id="txtNombre" alignment="CENTER" prefWidth="110.0" promptText="Nombre" />
+                              <TextField fx:id="txtNick" alignment="CENTER" prefHeight="25.0" prefWidth="142.0" promptText="Nick" />
+                              <PasswordField fx:id="txtPassword" alignment="CENTER" prefWidth="110.0" promptText="Password" />
+                              <TextField fx:id="txtEmail" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" promptText="Email" />
+                              <Button fx:id="btnRegistrar" mnemonicParsing="false" text="Registrar" />
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </opaqueInsets>
+      </VBox>
+   </left>
+   <right>
+      <VBox fx:id="rightPane" prefHeight="430.0" prefWidth="170.0" style="-fx-background-color: white; -fx-border-width: 7; -fx-border-color: #B2B2AA;" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>
