@@ -11,7 +11,7 @@ import es.chatserver.controllers.persistence.PersistenceController;
 import es.chatserver.interfaces.Observer;
 import es.chatserver.logic.Controller;
 import es.chatserver.model.Client;
-import es.chatserver.styles.UserLabel;
+import es.chatserver.entities.UserLabel;
 import es.chatserver.utils.Utils;
 import java.awt.Rectangle;
 import java.net.URL;
@@ -242,18 +242,18 @@ public class ServerGuiController implements Initializable, Observer {
     {    
         
 
-        centerPane.minWidthProperty().bind(mainBorderPane.minWidthProperty().multiply(0.5));
-        centerPane.maxWidthProperty().bind(mainBorderPane.maxWidthProperty().multiply(0.5));
-        centerPane.prefWidthProperty().bind(mainBorderPane.prefWidthProperty().multiply(0.5));
-        
-        centerPane.minHeightProperty().bind(mainBorderPane.minHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        centerPane.maxHeightProperty().bind(mainBorderPane.maxHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        centerPane.prefHeightProperty().bind(mainBorderPane.prefHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-        
-        listViewMessages.minWidthProperty().bind(centerPane.minWidthProperty().subtract(14));
-        listViewMessages.maxWidthProperty().bind(centerPane.maxWidthProperty().subtract(14));
-        listViewMessages.prefWidthProperty().bind(centerPane.prefWidthProperty().subtract(14));
-        
+//        centerPane.minWidthProperty().bind(mainBorderPane.minWidthProperty().multiply(0.5));
+//        centerPane.maxWidthProperty().bind(mainBorderPane.maxWidthProperty().multiply(0.5));
+//        centerPane.prefWidthProperty().bind(mainBorderPane.prefWidthProperty().multiply(0.5));
+//        
+//        centerPane.minHeightProperty().bind(mainBorderPane.minHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        centerPane.maxHeightProperty().bind(mainBorderPane.maxHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        centerPane.prefHeightProperty().bind(mainBorderPane.prefHeightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+//        
+        listViewMessages.minWidthProperty().bind(mainBorderPane.minWidthProperty().multiply(0.55));
+        listViewMessages.maxWidthProperty().bind(mainBorderPane.maxWidthProperty().multiply(0.55));
+        listViewMessages.prefWidthProperty().bind(mainBorderPane.prefWidthProperty().multiply(0.55));
+//        
 //        listViewMessages.minHeightProperty().bind(centerPane.minHeightProperty());
 //        listViewMessages.maxHeightProperty().bind(centerPane.maxHeightProperty());
 //        listViewMessages.prefHeightProperty().bind(centerPane.prefHeightProperty());
@@ -339,27 +339,27 @@ public class ServerGuiController implements Initializable, Observer {
         
         
         
-        vBoxNewUser.minHeightProperty().bind(titledPaneNewUser.minHeightProperty());
-        vBoxNewUser.maxHeightProperty().bind(titledPaneNewUser.maxHeightProperty());
-        vBoxNewUser.prefHeightProperty().bind(titledPaneNewUser.prefHeightProperty());
+//        vBoxNewUser.minHeightProperty().bind(titledPaneNewUser.minHeightProperty());
+//        vBoxNewUser.maxHeightProperty().bind(titledPaneNewUser.maxHeightProperty());
+//        vBoxNewUser.prefHeightProperty().bind(titledPaneNewUser.prefHeightProperty());
         
         //vBox con los text field para crear nuevo usuario
-        vBoxNewUser.minWidthProperty().bind(titledPaneNewUser.minWidthProperty());
-        vBoxNewUser.maxWidthProperty().bind(titledPaneNewUser.maxWidthProperty());
-        vBoxNewUser.prefWidthProperty().bind(titledPaneNewUser.prefWidthProperty());
+//        vBoxNewUser.minWidthProperty().bind(titledPaneNewUser.minWidthProperty());
+//        vBoxNewUser.maxWidthProperty().bind(titledPaneNewUser.maxWidthProperty());
+//        vBoxNewUser.prefWidthProperty().bind(titledPaneNewUser.prefWidthProperty());
         
         
         
         
           //rightPane - width binding
-        rightPane.minWidthProperty().bind(mainBorderPane.minWidthProperty().multiply(0.25));
-        rightPane.maxWidthProperty().bind(mainBorderPane.maxWidthProperty().multiply(0.25));
-        rightPane.prefWidthProperty().bind(mainBorderPane.prefWidthProperty().multiply(0.25));
+        rightPane.minWidthProperty().bind(mainBorderPane.minWidthProperty().multiply(0.2));
+        rightPane.maxWidthProperty().bind(mainBorderPane.maxWidthProperty().multiply(0.2));
+        rightPane.prefWidthProperty().bind(mainBorderPane.prefWidthProperty().multiply(0.2));
         
         //rightPane - heightProperty
-//        rightPane.minHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-//        rightPane.maxHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
-//        rightPane.prefHeightProperty().bind(borderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        rightPane.minHeightProperty().bind(mainBorderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        rightPane.maxHeightProperty().bind(mainBorderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
+        rightPane.prefHeightProperty().bind(mainBorderPane.heightProperty().subtract(topPane.heightProperty().add(bottomPane.heightProperty())));
         
     }
     
@@ -491,7 +491,7 @@ public class ServerGuiController implements Initializable, Observer {
                                 
                                 fp2.getChildren().add(txt2);
                                 txt2.setFill(Color.RED);
-                                
+                                txt2.wrappingWidthProperty().bind(listViewMessages.widthProperty().subtract(15));
                                 txt.setOnMouseClicked((e)-> {
                                     System.out.println("CLICKEDDDDDDD");
                                 });
@@ -501,7 +501,7 @@ public class ServerGuiController implements Initializable, Observer {
                         }
                 )
         );
-        messageMaker.setCycleCount(1);
+        messageMaker.setCycleCount(15);
         messageMaker.play();
         
         

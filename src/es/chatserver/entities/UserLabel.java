@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.chatserver.styles;
+package es.chatserver.entities;
     
 import es.chatserver.model.Client;
 import javafx.geometry.Insets;
