@@ -77,32 +77,41 @@ public class Decorator extends AnchorPane {
         
         btnClose.setOnAction((event) -> {
             
-            //Transición de cierre
-            ScaleTransition scaleTransitionClose = ScaleTransitionBuilder.create()
-                .node(this)
-                .duration(Duration.seconds(0.3))
-                .fromX(1)
-                .fromY(1)
-                .toX(0)
-                .toY(0)
-                .build();
             
-            //Cerrar cuando termine la animación
-            scaleTransitionClose.setOnFinished((e) -> {
-                this.stage.close();
-                
-                //Comprobar que es primaryStage para cerrar toda la app
-                if(stage.getTitle().equals(Main.getPrimaryStage().getTitle()))
-                {
+            //Comprobar que es primaryStage para cerrar toda la app
+            if(stage.getTitle().equals(Main.getPrimaryStage().getTitle()))
+            {
+                //Transición de cierre
+                ScaleTransition scaleTransitionClose = ScaleTransitionBuilder.create()
+                    .node(this)
+                    .duration(Duration.seconds(0.3))
+                    .fromX(1)
+                    .fromY(1)
+                    .toX(0)
+                    .toY(0)
+                    .build();
+
+                //Cerrar cuando termine la animación
+                scaleTransitionClose.setOnFinished((e) -> {
+
+
                     Platform.exit(); //Cerrar toda la aplicación
-                }
-                        
+
+                });
                 
+                //Iniciar transicion de cierre
+                scaleTransitionClose.play();
+                
+            }
+            else
+            {
+                this.stage.hide();
+            }
             
-            });
             
-            //Iniciar transicion de cierre
-            scaleTransitionClose.play();
+            
+            
+
         });
         
         //Posición boton close

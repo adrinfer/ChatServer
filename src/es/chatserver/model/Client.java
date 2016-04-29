@@ -47,17 +47,26 @@ public class Client implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Column(name = "email")
     private String email;
+    
     @Column(name = "nick")
     private String nick;
+    
     @Column(name = "pass")
     private String pass;
+    
     @Column(name = "registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registro;
+    
     @Column(name = "nombre")
     private String nombre;
+    
+    @Column(name = "bloqueado")
+    private boolean bloqueado;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<ClientConver> clientConverCollection;
     @OneToMany(mappedBy = "clientid")
@@ -80,6 +89,7 @@ public class Client implements Serializable {
         this.nick = nick;
         this.pass = pass;
         this.email = email;
+        //this.bloqueado = true;
         this.registro = new Date();
     }
 
@@ -135,6 +145,16 @@ public class Client implements Serializable {
         this.nombre = nombre;
     }
 
+    public boolean getBloqueado()
+    {
+        return bloqueado;
+    }
+    
+    public void setBloqueado(boolean bloqueado)
+    {
+        this.bloqueado = bloqueado;
+    }
+    
     @XmlTransient
     public Collection<ClientConver> getClientConverCollection() {
         return clientConverCollection;

@@ -40,8 +40,18 @@ public class UserLabel extends MenuButton {
  
   
         this.addItem(new UserLabelItem("Modificar"));
+        
+        if(client.getBloqueado())
+        {
+           this.addItem(new UserLabelItem("Desbloquear")); 
+        }
+        else
+        {
+            this.addItem(new UserLabelItem("Bloquear"));
+        }
+        
         this.addItem(new UserLabelItem("Borrar"));
-        this.addItem(new UserLabelItem("Bloquear"));
+        
         
         this.popupSideProperty().set(Side.RIGHT);
         

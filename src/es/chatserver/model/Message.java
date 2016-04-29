@@ -47,8 +47,10 @@ public class Message implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    
     @Column(name = "text")
     private String text;
+       
     @Column(name = "type")
     private Integer type;
     @JoinColumns({
@@ -128,5 +130,9 @@ public class Message implements Serializable {
     public String toString() {
         return "es.chatserver.model.Message[ id=" + id + " ]";
     }
+    
+    
+    
+    
     
 }

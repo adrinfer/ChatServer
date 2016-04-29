@@ -306,52 +306,60 @@ public class PersistenceController {
     
     // ----- DESTROYs ----- //
     
-    public void destroyClient(int id) //Destroy client
+    public boolean destroyClient(int id) //Destroy client
     {
         try 
         {
             clientJpa.destroy(id);
+            return true;
         } 
         catch (NonexistentEntityException | IllegalOrphanException ex) 
         {
             Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
-    public void destroyConver(int id) //Destroy conver
+    public boolean destroyConver(int id) //Destroy conver
     {
         try 
         {
             converJpa.destroy(id);
+            return true;
         } 
         catch (IllegalOrphanException | NonexistentEntityException ex) 
         {
             Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
-    public void destroyClientConver(ClientConverPK id) //Destroy clientConver
+    public boolean destroyClientConver(ClientConverPK id) //Destroy clientConver
     {
         try 
         {
             clientConverJpa.destroy(id);
+            return true;
         } 
         catch (NonexistentEntityException ex) 
         {
             Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
-    public void destroyMessage(int id) //Destroy message
+    public boolean destroyMessage(int id) //Destroy message
     {
         try 
         {
             msgJpa.destroy(id);
+            return true;
         } 
         catch (NonexistentEntityException ex) 
         {
             Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
     // ----- FIN DESTROYs ----- //

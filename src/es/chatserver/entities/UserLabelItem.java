@@ -39,7 +39,7 @@ public class UserLabelItem extends MenuItem {
     
     private final static Lock INSTANCIATION_LOCK = new ReentrantLock();
     private FXMLLoader loader;
-    private Stage modifyStage;
+    private static Stage modifyStage = null;
     private Pane modifyRoot;
     private Scene scene;
     
@@ -70,9 +70,14 @@ public class UserLabelItem extends MenuItem {
             switch (txt.toLowerCase()) {
                 case "modificar": //MODIFICAR
                     
-                    System.out.println("MODIFICAR: " + client.getNick() + " -ID: " + client.getId());
                     
-                    getModifyStage().show();
+                    //Si estaba en hidden mostrarla
+                    if(!getModifyStage().isShowing())
+                    {
+                        getModifyStage().show();
+                    }
+                    
+                    //Mandar a la ventana de modificacion el cliente
                     ModifyUserGUIController.getInstance().setClient(client);
                     ModifyUserGUIController.getInstance().getStage().setTitle("Modificar usuario: " + client.getNick());
                     
@@ -80,21 +85,28 @@ public class UserLabelItem extends MenuItem {
                     
                 case "borrar": //BORRAR
                     
-                    System.out.println("BORRAR: " + client.getNick() + " -ID: " + client.getId());
                     logicController.deleteClient(client.getId());
                     
                     break;
-                case "bloquear": //BLOQUEAR
                     
-                    System.out.println("BLOQUEAR: " + client.getNick() + " -ID: " + client.getId());
+                case "bloquear": //BLOQUEAR
+                                        
+                    logicController.lockClient(client);
+
+                    break;
+                    
+                case "desbloquear": //BLOQUEAR
+                    
+                    logicController.unlockClient(client);
                     
                     break;
+                    
                 default:
+                    
                     break;
             }
             
-            //Actualizar
-            logicController.informAll();
+            
         
         });
         
@@ -104,7 +116,7 @@ public class UserLabelItem extends MenuItem {
     }
     
     
-    public Stage getModifyStage()
+    private Stage getModifyStage()
     {
         
         
@@ -140,7 +152,7 @@ public class UserLabelItem extends MenuItem {
                     
                     //Cargar el decorador que tiene al panel
                     scene = new Scene(decoratorModify);
-                    
+                    scene.getStylesheets().add(getClass().getResource("/es/chatserver/styles/styles.css").toExternalForm());
                     modifyStage.setScene(scene);
                     scene.setFill(Color.TRANSPARENT);
                     

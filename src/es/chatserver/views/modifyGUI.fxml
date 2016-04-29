@@ -7,17 +7,60 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="303.0" style="-fx-background-color: #B2B2AA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox fx:id="topPane" alignment="CENTER" prefHeight="56.0" prefWidth="303.0" style="-fx-background-color: rgb(96,96,96);;">
+      <HBox fx:id="topPane" alignment="CENTER" prefHeight="93.0" prefWidth="303.0" style="-fx-background-color: rgb(96,96,96);;">
          <children>
-            <Label fx:id="userId" text="ID: ">
+            <Label fx:id="userId" text="ID: " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
          </children>
       </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <Label text="Nombre:" />
+            <TextField fx:id="txtNombre" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <Label text="     Nick:" />
+            <TextField fx:id="txtNick" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <Label text="    Pass:" />
+            <PasswordField fx:id="txtPass" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <Label text="  Email:" />
+            <TextField fx:id="txtEmail" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <CheckBox fx:id="checkBoxBloqueado" mnemonicParsing="false" text="Bloqueado" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 40;">
+         <children>
+            <Button fx:id="btnDiscard" mnemonicParsing="false" text="Descartar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnSave" mnemonicParsing="false" text="Guardar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="70.0" prefWidth="303.0" />
    </children>
 </VBox>

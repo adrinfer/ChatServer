@@ -5,6 +5,8 @@
  */
 package es.chatserver.interfaces;
 
+import es.chatserver.entities.TextMsg;
+
 /**
  *
  * @author adrinfer
@@ -12,5 +14,6 @@ package es.chatserver.interfaces;
 public interface Observer {
     
     void update();
+    void update(TextMsg message);
     
 }

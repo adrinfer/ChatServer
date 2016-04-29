@@ -5,6 +5,8 @@
  */
 package es.chatserver.interfaces;
 
+import es.chatserver.entities.TextMsg;
+
 /**
  *
  * @author adrinfer
@@ -13,7 +15,7 @@ public interface Observable {
     
     void addObserver(Observer obj);
     void removeObserver(Observer obj);
-    void inform(Observer obj);
+    void inform(TextMsg message);
     void informAll();
     
 }

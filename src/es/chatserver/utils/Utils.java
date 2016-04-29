@@ -28,7 +28,7 @@ public class Utils {
     
     
     //Obtener formato de fecha para los mensajes
-    public SimpleDateFormat getDfMessage()
+    public static SimpleDateFormat getDfMessage()
     {
         return new SimpleDateFormat("HH:mm:ss");
     }
