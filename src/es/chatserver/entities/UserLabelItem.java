@@ -5,7 +5,7 @@
  */
 package es.chatserver.entities;
 
-import chatserver.Main;
+
 import es.chatserver.controllers.viewcontrollers.ModifyUserGUIController;
 import es.chatserver.logic.Controller;
 import es.chatserver.model.Client;

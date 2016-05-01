@@ -34,7 +34,13 @@ public class TextMsg {
     public final static int USER_UNLOCK = 6;
     public final static int NICK_IN_USE = 7;
     public final static int EMAIL_IN_USE = 8;
+    public final static int EMAIL_IN_USE_NOT_MODIFIED = 9;
+    public final static int NICK_IN_USE_NOT_MODIFIED = 10;
+    public final static int USER_PARTIALLY_MODIFIED = 11;
+    public final static int USER_NOT_CREATED = 12;
+    public final static int EMAIL_NOT_CORRECT = 13;
     
+    //Crear mensaje recibiendo un string
     public TextMsg(String string, int type)
     {
         
@@ -45,6 +51,7 @@ public class TextMsg {
         setTypeString(type);
     }
     
+    //Crear mensaje respecto a un cliente
     public TextMsg(Client client, int type)
     {
         
@@ -61,77 +68,119 @@ public class TextMsg {
     {
         
         
-        if(type == TextMsg.NEW_USER)
+        switch (type) 
         {
-            this.msgText.setText("  " + this.date + " - Usuario REGISTRADO:  >Id: " + client.getId()+ "  >Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: green;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
+            case TextMsg.NEW_USER:
+                this.msgText.setText("  " + this.date + " - Usuario REGISTRADO:  >Id: " + client.getId()+ "  >Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: green;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
+                break;
+                
+            case TextMsg.USER_DELETE:
+                this.msgText.setText("  " + this.date + " - Usuario ELIMINADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: #8A0100;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
+                break;
+                
+            case TextMsg.NEW_USER_ONLINE:
+                this.msgText.setText("  " + this.date + " - Usuario online:  Id: " + client.getId() + " Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: orange;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
+                break;
+                
+            case TextMsg.USER_DISCONECTED:
+                this.msgText.setText("  " + this.date + " - Usuario DESCONECTADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: gray;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
+                break;
+                
+            case TextMsg.USER_MODIFIED:
+                this.msgText.setText("  " + this.date + " - Usuario MODIFICADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
+                break;
+                
+            case TextMsg.USER_LOCK:
+                this.msgText.setText("  " + this.date + " - Usuario BLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: orange;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
+                break;
+                
+            case TextMsg.USER_UNLOCK:
+                this.msgText.setText("  " + this.date + " - Usuario DESBLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                //flowPane.setStyle("-fx-background-color: green;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
+                break;
+                
+            case TextMsg.NICK_IN_USE:
+                this.msgText.setText("  " + this.date + " - Nick (" + client.getNick() + ") en uso.");
+                //flowPane.setStyle("-fx-background-color: #F0E084;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.EMAIL_IN_USE:
+                this.msgText.setText("  " + this.date + " - Email (" + client.getEmail() + ") en uso.");
+                //flowPane.setStyle("-fx-background-color: #F0E084;");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.EMAIL_IN_USE_NOT_MODIFIED:
+                this.msgText.setText("  " + this.date + " - Email en uso. No modificado:  Id: " + client.getId() + " Nick: " + client.getNick());
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.NICK_IN_USE_NOT_MODIFIED:
+                this.msgText.setText("  " + this.date + " - Nick en uso. No modificado:  Id: " + client.getId() + " Nick: " + client.getNick());
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.USER_PARTIALLY_MODIFIED:
+                this.msgText.setText("  " + this.date + " - Usuario PARCIALMENTE MODIFICADO:  Id: " + client.getId() + " Nick: " + client.getNick());
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
+                break;
             
-        }
-        else if(type == TextMsg.USER_DELETE)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario ELIMINADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: #8A0100;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
-        }
-        else if(type == TextMsg.NEW_USER_ONLINE)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario online:  Id: " + client.getId() + " Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: orange;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
-        }
-        else if(type == TextMsg.USER_DISCONECTED)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario DESCONECTADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: gray;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
-        }
-        else if(type == TextMsg.USER_MODIFIED)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario MODIFICADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
-        }
-        else if(type == TextMsg.USER_LOCK)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario BLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: orange;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
-        }
-        else if(type == TextMsg.USER_UNLOCK)
-        {
-            this.msgText.setText("  " + this.date + " - Usuario DESBLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-            //flowPane.setStyle("-fx-background-color: green;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
-        }
-        else if(type == TextMsg.NICK_IN_USE)
-        {
-            this.msgText.setText("  " + this.date + " - Nick (" + client.getNick() + ") en uso.");
-            //flowPane.setStyle("-fx-background-color: #F0E084;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
-        }
-        else if(type == TextMsg.EMAIL_IN_USE)
-        {
-            this.msgText.setText("  " + this.date + " - Email (" + client.getEmail() + ") en uso.");
-            //flowPane.setStyle("-fx-background-color: #F0E084;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+            case TextMsg.USER_NOT_CREATED:
+                this.msgText.setText("  " + this.date + " - Usuario NO CREADO");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
+                break;
+             
+            case TextMsg.EMAIL_NOT_CORRECT:
+                this.msgText.setText("  " + this.date + " - Email incorrecto.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            default:
+                break;
         }
         
     }
     
     
+    
     private void setTypeString(int type)
     {
-        if(type == TextMsg.NICK_IN_USE)
+        
+        System.out.println("TYPE: " + type);
+        switch(type)
         {
-            this.msgText.setText("  " + this.date + " - Nick \"" + string + "\" en uso.");
-            //flowPane.setStyle("-fx-background-color: #F0E084;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
-        }
-        else if(type == TextMsg.EMAIL_IN_USE)
-        {
-            this.msgText.setText("  " + this.date + " - Email \"" + string + "\" en uso.");
-            //flowPane.setStyle("-fx-background-color: #F0E084;");
-            flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+            case TextMsg.NICK_IN_USE:
+                this.msgText.setText("  " + this.date + " - Nick \"" + string + "\" en uso.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.EMAIL_IN_USE:
+                this.msgText.setText("  " + this.date + " - Email \"" + string + "\" en uso.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.EMAIL_NOT_CORRECT:
+                this.msgText.setText("  " + this.date + " - Email incorrecto.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
+                break;
+                
+            case TextMsg.USER_NOT_CREATED:
+                this.msgText.setText("  " + this.date + " - Usuario NO CREADO");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
+                break;
         }
         
         

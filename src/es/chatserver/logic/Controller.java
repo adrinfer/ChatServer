@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -114,109 +116,128 @@ public class Controller implements Observable {
     public void addUser(String nombre, String nick, String pass, String email)
     {
         
-        List<Client> usersList = getUsersList();
         
-        boolean nickUse = false;
-        boolean emailUse = false;
+        boolean nickUse = validateNick(nick);
+        boolean emailUse = validateEmail(email);
         
-        for(Client client: usersList)
+        
+
+        
+        if(nickUse && emailUse)
         {
-            if(client.getNick().equals(nick))
+            Client nuevoCliente = new Client(nombre, nick, pass, email);
+            if(perController.persist(nuevoCliente))
             {
-                nickUse = true;
-            }
-            
-            if(client.getEmail().equals(email))
+                inform(new TextMsg(nuevoCliente, TextMsg.NEW_USER));
+            } 
+            else
             {
-                emailUse = true;
+                inform(new TextMsg(email, TextMsg.USER_NOT_CREATED));
             }
-            
-            
-            if(nickUse && emailUse)
-            {
-                inform(new TextMsg(nick, TextMsg.NICK_IN_USE));
-                inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
-                return;
-            }
-            else if(emailUse)
-            {
-                inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
-                return;
-            }
-            else if(nickUse)
-            {
-                inform(new TextMsg(nick, TextMsg.NICK_IN_USE));
-                return;
-            }
-            
-            
+        }
+        else
+        {
+            inform(new TextMsg(email, TextMsg.USER_NOT_CREATED));
         }
         
-        Client nuevoCliente = new Client(nombre, nick, pass, email);
-         if(perController.persist(nuevoCliente))
-        {
-            inform(new TextMsg(nuevoCliente, TextMsg.NEW_USER));
-        }
         
     }
     
     //Modificar usuario
-    public void modifyUser(Client client)
+    public void edit(Client client, int msgNotify)
     {
-        //Obtener lista de usuarios
-        List<Client> usersList = getUsersList();
+         
+        //msgNotify, muestra el estado de la modificacion
         
-        boolean nickUse = false;
-        boolean emailUse = false;
-        
-        for(Client c: usersList)
+        if(perController.edit(client))
         {
-            if(c.getNick().equals(client.getNick()))
-            {
-                System.out.println("DENTRO NICK");
-                nickUse = true;
-            }
-            
-            if(c.getEmail().equals(client.getEmail()))
-            {
-                System.out.println("DENTRO EMAIL");
-                emailUse = true;
-            }
-            
-            
-            if(nickUse && emailUse)
-            {
-                System.out.println("ENTRO DOBLE");
-                inform(new TextMsg(client.getNick(), TextMsg.NICK_IN_USE));
-                inform(new TextMsg(client.getEmail(), TextMsg.EMAIL_IN_USE));
-                return;
-            }
-            else if(emailUse)
-            {
-                inform(new TextMsg(client.getEmail(), TextMsg.EMAIL_IN_USE));
-                return;
-            }
-            else if(nickUse)
-            {
-                inform(new TextMsg(client.getNick(), TextMsg.NICK_IN_USE));
-                return;
-            }
+            //Mostrar mensaje
+            inform(new TextMsg(client, msgNotify));
+        }
         
+    }
+    
+    public boolean validateEmail(String email)
+    {
+        return validateEmail(email, 0);
+    }
+    
+    //Acción 1 equivale a modificar
+    public boolean validateEmail(String email, int action)
+    {
+        
+        String patternEmail = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        
+        Pattern pattern = Pattern.compile(patternEmail);
+        Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches())
+        {
+            System.out.println("NO PATRON AA");
+            inform(new TextMsg(email, TextMsg.EMAIL_NOT_CORRECT));
+            return false;
         }
         
         
-//        if(perController.edit(client))
-//        {
-//            //Mostrar mensaje
-//            inform(new TextMsg(client, TextMsg.USER_MODIFIED));
-//        }
+        //Obtener lista de usuarios
+        List<Client> usersList = getUsersList();
+        
+        for(Client user: usersList)
+        {
+            if(user.getEmail().equals(email))
+            {
+                //Al modificar no queremos que nuestro propio email nos diga en uso
+                if(action == 0) 
+                {
+                    inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
+                }
+                
+                return false;
+            }
+        }
+        
+        return true;
         
     }
+    
+    
+    public boolean validateNick(String nick)
+    {
+        return validateNick(nick, 0);
+    }
+    
+    //Acción 1 equivale a modificar
+    public boolean validateNick(String nick, int action)
+    {
+
+        //Obtener lista de usuarios
+        List<Client> usersList = getUsersList();
+        for(Client user: usersList)
+        {
+            if(user.getNick().equals(nick))
+            {
+                //Acion 0 es creacion de usuario
+                //Si no es 0 no queremos que en la modificacion nos tome como usado
+                //nuestro propio nick
+                if(action == 0)
+                {
+                    inform(new TextMsg(nick, TextMsg.NICK_IN_USE));
+                }
+                return false;
+                
+            }
+        }
+        
+        return true;
+        
+    }
+    
     
     
     //Eliminar usuario por ID
     public void deleteClient(Integer id)
     {
+        
         
         Client clientToDelete = perController.findClient(id);
         if(perController.destroyClient(id))

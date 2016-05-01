@@ -13,17 +13,13 @@ import es.chatserver.interfaces.Observer;
 import es.chatserver.logic.Controller;
 import es.chatserver.model.Client;
 import es.chatserver.entities.UserLabel;
-import es.chatserver.model.Message;
 import es.chatserver.utils.Utils;
 import java.awt.Rectangle;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,14 +36,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 
 /**
@@ -458,6 +450,7 @@ public class ServerGuiController implements Initializable, Observer {
         //Una vez puesto el mensaje hacer scroll abajo del todo
         //Es necesario esto para que le de tiempo y haga scroll correctamente
         Platform.runLater(() -> {
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             scrollPaneMessageList.setVvalue(1);
         });
         

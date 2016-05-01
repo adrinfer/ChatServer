@@ -24,7 +24,7 @@
             <TextField fx:id="txtNombre" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+      <HBox fx:id="hBoxNick" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
          <children>
             <Label text="     Nick:" />
             <TextField fx:id="txtNick" />
@@ -36,7 +36,7 @@
             <PasswordField fx:id="txtPass" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
+      <HBox fx:id="hBoxEmail" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
          <children>
             <Label text="  Email:" />
             <TextField fx:id="txtEmail" />
@@ -61,6 +61,22 @@
             </Button>
          </children>
       </HBox>
-      <HBox prefHeight="70.0" prefWidth="303.0" />
+      <HBox alignment="CENTER" prefHeight="11.0" prefWidth="303.0">
+         <children>
+            <Label fx:id="lblValidNick" style="-fx-text-fill: red;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children></HBox>
+      <HBox alignment="CENTER" prefHeight="9.0" prefWidth="303.0">
+         <children>
+            <Label fx:id="lblValidEmail" style="-fx-text-fill: red;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </VBox>
