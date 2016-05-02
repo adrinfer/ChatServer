@@ -61,6 +61,11 @@ public class Message implements Serializable {
 
     public Message() {
     }
+    
+    public Message(String text)
+    {
+        this.text = text;
+    }
 
     public Message(Integer id) {
         this.id = id;

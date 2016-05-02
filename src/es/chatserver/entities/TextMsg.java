@@ -14,10 +14,11 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class TextMsg {
     
+    //Atributos
     private final FlowPane flowPane;
     private final Text msgText;
     private String string;
@@ -39,6 +40,7 @@ public class TextMsg {
     public final static int USER_PARTIALLY_MODIFIED = 11;
     public final static int USER_NOT_CREATED = 12;
     public final static int EMAIL_NOT_CORRECT = 13;
+    public final static int EMPTY_FIELD = 14;
     
     //Crear mensaje recibiendo un string
     public TextMsg(String string, int type)
@@ -72,25 +74,21 @@ public class TextMsg {
         {
             case TextMsg.NEW_USER:
                 this.msgText.setText("  " + this.date + " - Usuario REGISTRADO:  >Id: " + client.getId()+ "  >Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: green;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
                 break;
                 
             case TextMsg.USER_DELETE:
                 this.msgText.setText("  " + this.date + " - Usuario ELIMINADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: #8A0100;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
                 break;
                 
             case TextMsg.NEW_USER_ONLINE:
                 this.msgText.setText("  " + this.date + " - Usuario online:  Id: " + client.getId() + " Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: orange;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
                 break;
                 
             case TextMsg.USER_DISCONECTED:
                 this.msgText.setText("  " + this.date + " - Usuario DESCONECTADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: gray;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: gray;");
                 break;
                 
@@ -101,25 +99,21 @@ public class TextMsg {
                 
             case TextMsg.USER_LOCK:
                 this.msgText.setText("  " + this.date + " - Usuario BLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: orange;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: orange;");
                 break;
                 
             case TextMsg.USER_UNLOCK:
                 this.msgText.setText("  " + this.date + " - Usuario DESBLOQUEADO:  Id: " + client.getId() + " Nick: " + client.getNick());
-                //flowPane.setStyle("-fx-background-color: green;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: green;");
                 break;
                 
             case TextMsg.NICK_IN_USE:
                 this.msgText.setText("  " + this.date + " - Nick (" + client.getNick() + ") en uso.");
-                //flowPane.setStyle("-fx-background-color: #F0E084;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
                 break;
                 
             case TextMsg.EMAIL_IN_USE:
                 this.msgText.setText("  " + this.date + " - Email (" + client.getEmail() + ") en uso.");
-                //flowPane.setStyle("-fx-background-color: #F0E084;");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
                 break;
                 
@@ -148,6 +142,11 @@ public class TextMsg {
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #F0E084;");
                 break;
                 
+            case TextMsg.EMPTY_FIELD:
+                this.msgText.setText("  " + this.date + " - Campo/s vacío/s.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
+                break;
+                
             default:
                 break;
         }
@@ -159,7 +158,6 @@ public class TextMsg {
     private void setTypeString(int type)
     {
         
-        System.out.println("TYPE: " + type);
         switch(type)
         {
             case TextMsg.NICK_IN_USE:
@@ -181,12 +179,18 @@ public class TextMsg {
                 this.msgText.setText("  " + this.date + " - Usuario NO CREADO");
                 flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
                 break;
+                
+            case TextMsg.EMPTY_FIELD:
+                this.msgText.setText("  " + this.date + " - Campo/s vacío/s.");
+                flowPane.setStyle("-fx-border-width: 0 0 0 20; -fx-border-color: #8A0100;");
+                break;
         }
         
         
         
     }
     
+    //Devolver el flowPane que contiene el mensaje y será añadido al VBox de mensajes
     public FlowPane getMessage()
     {
         
@@ -198,4 +202,4 @@ public class TextMsg {
     }
 
     
-}
+}//end class

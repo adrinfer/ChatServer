@@ -99,29 +99,17 @@ public class Controller implements Observable {
     
     //Obtener los usuarios totales in filtro
     public List<Client> getUsersList()
-    {
-//        List<Client> lista = perController.findClientEntities();
-//        List<Client> resultList = new ArrayList<>();
-//
-//        for(Client client: lista)
-//        {
-//            resultList.add(client);
-//        }
-        
+    {        
         return perController.findClientEntities();
     }
     
     
     //Añadir nuevo usuario
-    public void addUser(String nombre, String nick, String pass, String email)
+    public boolean addUser(String nombre, String nick, String pass, String email)
     {
-        
-        
+             
         boolean nickUse = validateNick(nick);
         boolean emailUse = validateEmail(email);
-        
-        
-
         
         if(nickUse && emailUse)
         {
@@ -129,19 +117,44 @@ public class Controller implements Observable {
             if(perController.persist(nuevoCliente))
             {
                 inform(new TextMsg(nuevoCliente, TextMsg.NEW_USER));
+                return true;
             } 
             else
             {
                 inform(new TextMsg(email, TextMsg.USER_NOT_CREATED));
+                return false;
             }
         }
         else
         {
             inform(new TextMsg(email, TextMsg.USER_NOT_CREATED));
+            return false;
+        }
+         
+    }
+    
+    
+    public Client findClient(int id)
+    {
+       return perController.findClient(id);
+    }
+    
+    public boolean loginUser(String nick, String pass)
+    {
+        
+        for(Client client: getUsersList())
+        {
+            if(client.getNick().equals(nick))
+            {
+                return client.getPass().equals(pass);
+            }
+            
         }
         
+        return false;
         
     }
+    
     
     //Modificar usuario
     public void edit(Client client, int msgNotify)
@@ -173,8 +186,7 @@ public class Controller implements Observable {
         Matcher matcher = pattern.matcher(email);
         if(!matcher.matches())
         {
-            System.out.println("NO PATRON AA");
-            inform(new TextMsg(email, TextMsg.EMAIL_NOT_CORRECT));
+            //inform(new TextMsg(email, TextMsg.EMAIL_NOT_CORRECT));
             return false;
         }
         
@@ -233,12 +245,10 @@ public class Controller implements Observable {
     }
     
     
-    
     //Eliminar usuario por ID
     public void deleteClient(Integer id)
     {
-        
-        
+                
         Client clientToDelete = perController.findClient(id);
         if(perController.destroyClient(id))
         {
@@ -268,7 +278,6 @@ public class Controller implements Observable {
     }
     
 
-
     @Override
     public void addObserver(Observer obj) {
         observersList.add(obj);
@@ -295,5 +304,6 @@ public class Controller implements Observable {
             obj.update();
         }
     }
+  
     
-}
+}//end class

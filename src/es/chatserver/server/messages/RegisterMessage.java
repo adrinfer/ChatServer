@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatserver;
+package es.chatserver.server.messages;
+
+import java.io.Serializable;
 
 /**
  *
  * @author Practicas01
  */
-public class Server {
+public class RegisterMessage implements NetworkMessage, Serializable {
     
 }

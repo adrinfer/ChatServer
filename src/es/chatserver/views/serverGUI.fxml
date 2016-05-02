@@ -43,7 +43,7 @@
          <children>
             <ScrollPane fx:id="scrollPaneMessageList" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #B2B2AA; -fx-border-width: 7; -fx-padding: 20,20,20,20;" GridPane.columnSpan="3" GridPane.rowSpan="3">
                <content>
-                  <VBox fx:id="vBoxMessageList" alignment="BOTTOM_CENTER" prefHeight="405.0" prefWidth="311.0" style="-fx-spacing: 10;" />
+                  <VBox fx:id="vBoxMessageList" alignment="BOTTOM_CENTER" prefHeight="314.0" prefWidth="311.0" style="-fx-spacing: 10;" />
                </content>
             </ScrollPane>
          </children>
@@ -113,6 +113,9 @@
       </VBox>
    </left>
    <right>
-      <VBox fx:id="rightPane" prefHeight="430.0" prefWidth="170.0" style="-fx-background-color: white; -fx-border-width: 7; -fx-border-color: #B2B2AA;" BorderPane.alignment="CENTER" />
+      <VBox fx:id="rightPane" prefHeight="430.0" prefWidth="170.0" style="-fx-background-color: white; -fx-border-width: 7; -fx-border-color: #B2B2AA;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnStop" mnemonicParsing="false" text="Button" />
+         </children></VBox>
    </right>
 </BorderPane>

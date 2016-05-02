@@ -232,7 +232,6 @@ public class ModifyUserGUIController implements Initializable {
             //Comprobar que no sea el que ya habia introducido para que no lo tome como error
             if(txtEmail.getText().equals(client.getEmail()) || validEmail)
             {
-
                 client.setEmail(txtEmail.getText());
             }
             else
@@ -247,7 +246,6 @@ public class ModifyUserGUIController implements Initializable {
             if(validNick || txtNick.getText().equals(client.getNick()))
             {
                  client.setNick(txtNick.getText());
-
             }
             else
             {
@@ -267,7 +265,20 @@ public class ModifyUserGUIController implements Initializable {
         
         //Para bloquear y desbloquear usar el método del cliente
         //Si se utilizan los metodos del controlador se actualiza antes de tiempo
-        client.setBloqueado(checkBoxBloqueado.isSelected());
+        
+        if(client.getBloqueado() != checkBoxBloqueado.isSelected())
+        {
+            client.setBloqueado(checkBoxBloqueado.isSelected());
+            if(client.getBloqueado())
+            {
+                logicController.inform(new TextMsg(client, TextMsg.USER_LOCK));
+            }
+            else
+            {
+                logicController.inform(new TextMsg(client, TextMsg.USER_UNLOCK));
+            }
+        }
+        
 
         logicController.edit(client, msgNotify);
         

@@ -6,11 +6,11 @@
 package chatserver;
 
 import es.chatserver.controllers.viewcontrollers.ServerGuiController;
+import es.chatserver.utils.Encrypt;
 import es.chatserver.views.Decorator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -117,7 +117,8 @@ public class Main extends Application {
         //Llamar a la animación después de mostrar el show
         scaleTransitionOpen.play();
         setBindings();
-                
+        
+        
     }
 
     /**

@@ -7,6 +7,8 @@ package es.chatserver.controllers.viewcontrollers;
 
 
 import chatserver.Main;
+import es.chatserver.server.Server;
+import es.chatserver.server.ServerRun;
 import es.chatserver.controllers.persistence.PersistenceController;
 import es.chatserver.entities.TextMsg;
 import es.chatserver.interfaces.Observer;
@@ -18,8 +20,11 @@ import java.awt.Rectangle;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,6 +52,10 @@ import javafx.scene.paint.Paint;
  * @author adrinfer
  */
 public class ServerGuiController implements Initializable, Observer {
+    
+    
+    @FXML
+    private Button btnStop;
     
     
     @FXML
@@ -361,9 +370,51 @@ public class ServerGuiController implements Initializable, Observer {
         });
               
         //Acción del botón para añadir nuevo usuario
-        btnRegistrar.setOnAction((event) -> 
-                logicController.addUser(txtNombre.getText(), txtNick.getText(), txtPassword.getText(), txtEmail.getText())
-        );
+        btnRegistrar.setOnAction((event) -> {
+            
+            //Comprobar campos vacíos
+            if(txtNombre.getText().isEmpty() || txtNick.getText().isEmpty() || txtPassword.getText().isEmpty() || txtEmail.getText().isEmpty())
+            {
+                logicController.inform(new TextMsg("", TextMsg.EMPTY_FIELD));
+            }
+            else
+            {
+                logicController.addUser(txtNombre.getText(), txtNick.getText(), txtPassword.getText(), txtEmail.getText());
+            }
+            
+            
+        });
+        
+        txtNick.setOnKeyReleased((event) -> {
+            if(!logicController.validateNick(txtNick.getText()))
+            {
+                btnRegistrar.setDisable(true);
+                txtNick.getStyleClass().clear();
+                txtNick.getStyleClass().add("text-field-error");   
+            }
+            else
+            {
+                btnRegistrar.setDisable(false);
+                txtNick.getStyleClass().clear();
+                txtNick.getStyleClass().add("text-field"); 
+            }
+        });
+        
+        txtEmail.setOnKeyReleased((event) -> {
+            if(!logicController.validateEmail(txtEmail.getText()))
+            {
+                btnRegistrar.setDisable(true);
+                txtEmail.getStyleClass().clear();
+                txtEmail.getStyleClass().add("text-field-error");   
+            }
+            else
+            {
+                btnRegistrar.setDisable(false);
+                txtEmail.getStyleClass().clear();
+                txtEmail.getStyleClass().add("text-field"); 
+            }
+        });
+        
     }
     
  
@@ -444,21 +495,25 @@ public class ServerGuiController implements Initializable, Observer {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: red;");
         
-        
+        scrollPaneMessageList.setVvalue(1);
         vBoxMessageList.getChildren().add(message.getMessage());
         
-        //Una vez puesto el mensaje hacer scroll abajo del todo
-        //Es necesario esto para que le de tiempo y haga scroll correctamente
-        Platform.runLater(() -> {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            scrollPaneMessageList.setVvalue(1);
-        });
+
+        System.out.println("SCROLL: " + scrollPaneMessageList.getVvalue());
+        scrollPaneMessageList.setVvalue(1);
+        
         
     }
     
     private void init()
     {
    
+        ServerRun a = new ServerRun(53013);
+        
+        btnStop.setOnAction((event) -> {
+            System.out.println("APAGADO");
+            a.interrupt();
+        });
         
         //Hacer que la ventana(stage), se pueda arrastrar con el topPane y bottomPane
         Utils.makeDraggable(Main.getPrimaryStage(), topPane);
@@ -492,4 +547,4 @@ public class ServerGuiController implements Initializable, Observer {
     }  
     
     
-}
+}//end class
