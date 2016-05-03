@@ -5,12 +5,32 @@
  */
 package es.chatserver.server.messages;
 
-import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  *
  * @author Practicas01
  */
-public class RegisterMessage implements NetworkMessage, Serializable {
+
+public class RegisterMessage implements NetworkMessage {
     
+    
+    
+    private final Date date;
+    
+    public RegisterMessage()
+    {
+        date = new Date();
+    }
+    
+    public Date getDate()
+    {
+        return date;
+    }
+
+    @Override
+    public Date getAlgo() {
+        return date;
+    }
 }

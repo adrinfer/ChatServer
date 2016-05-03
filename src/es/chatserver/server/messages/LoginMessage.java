@@ -5,12 +5,14 @@
  */
 package es.chatserver.server.messages;
 
+
 import java.io.Serializable;
 
 /**
  *
  * @author Practicas01
  */
-public class LoginMessage implements NetworkMessage, Serializable {
+
+public class LoginMessage implements  Serializable {
     
 }

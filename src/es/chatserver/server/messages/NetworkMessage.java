@@ -5,8 +5,8 @@
  */
 package es.chatserver.server.messages;
 
-import es.chatserver.model.Client;
-import java.io.Serializable;
+
+import java.util.Date;
 
 
 
@@ -14,6 +14,7 @@ import java.io.Serializable;
  *
  * @author adrinfer
  */
+
 public interface NetworkMessage {
     
     
@@ -50,5 +51,7 @@ public interface NetworkMessage {
 //    {
 //        return client;
 //    }
+    
+    public Date getAlgo();
     
 }

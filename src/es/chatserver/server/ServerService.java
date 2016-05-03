@@ -6,10 +6,14 @@
 package es.chatserver.server;
 
 
+
+import com.google.gson.Gson;
 import es.chatserver.server.messages.NetworkMessage;
 import es.chatserver.logic.Controller;
 import es.chatserver.server.messages.LoginMessage;
 import es.chatserver.server.messages.RegisterMessage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,8 +35,8 @@ public abstract class ServerService implements Callable {
     private static int uniqueID;
     
     private final int port;
-    private ObjectInputStream objInputStream;
-    private ObjectOutputStream objOutputStream;
+    private DataInputStream objInputStream;
+    private DataOutputStream objOutputStream;
     private final int MAX_CONECTIONS = 2;
     private Socket clientConexion;
     private ServerSocket serverSocket;
@@ -47,6 +51,8 @@ public abstract class ServerService implements Callable {
     //Primer mensaje recibido del cliente
     private NetworkMessage firstNetMsg;
     
+    private final Gson gson;
+    
     private boolean serverRunning;
     
     //Constructor
@@ -58,6 +64,7 @@ public abstract class ServerService implements Callable {
         this.executorThread = Executors.newFixedThreadPool(MAX_CONECTIONS);
         this.futureList = new ArrayList();
         this.serverRunning = true;
+        this.gson = new Gson();
                 
     }
     
@@ -78,29 +85,32 @@ public abstract class ServerService implements Callable {
                     break;
                 }
                 
-                objInputStream = new ObjectInputStream( clientConexion.getInputStream());
-                objOutputStream = new ObjectOutputStream(clientConexion.getOutputStream());
+                objInputStream = new DataInputStream( clientConexion.getInputStream());
+                objOutputStream = new DataOutputStream(clientConexion.getOutputStream());
                 
                 //El primer mensaje solo deberia ser register o login
-                firstNetMsg = (NetworkMessage) objInputStream.readObject();
+                //firstNetMsg = (NetworkMessage) objInputStream.readObject();
                 
-                process(firstNetMsg);
+                //process(firstNetMsg);
                 
-                
+                String json = objInputStream.readUTF();
+                NetworkMessage net = gson.fromJson(json, NetworkMessage.class);
+//              firstNetMsg = mapper.readerFor(NetworkMessage.class).readValue(clientConexion.getInputStream());
+                System.out.println("NET: " + net.getAlgo());
                 
                 //TODO lanzar thread con executeService para clientes
-                ClientThread newClient = new ClientThread(clientConexion, objInputStream, objOutputStream, ++uniqueID);
+                //ClientThread newClient = new ClientThread(clientConexion, objInputStream, objOutputStream, ++uniqueID);
                 
-                clientList.add(newClient); //Guardar cliente
+                //clientList.add(newClient); //Guardar cliente
                 
-                futureList.add(executorThread.submit(newClient));
+                //futureList.add(executorThread.submit(newClient));
                 
                 
             }
             
             
         } 
-        catch (IOException | ClassNotFoundException e) 
+        catch (IOException e) 
         {
             e.printStackTrace();
  
