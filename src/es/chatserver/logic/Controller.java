@@ -6,11 +6,14 @@
 package es.chatserver.logic;
 
 import es.chatserver.controllers.persistence.PersistenceController;
-import es.chatserver.controllers.viewcontrollers.ServerGuiController;
+
 import es.chatserver.entities.TextMsg;
 import es.chatserver.interfaces.Observable;
 import es.chatserver.interfaces.Observer;
 import es.chatserver.model.Client;
+import es.chatserver.server.messages.NetworkMessage;
+import es.chatserver.server.requests.LoginRequest;
+import es.chatserver.utils.Status;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -26,7 +29,7 @@ import java.util.regex.Pattern;
 public class Controller implements Observable {
     
     
-    private List<Observer> observersList = new ArrayList<>();
+    private final List<Observer> observersList = new ArrayList<>();
     
     private final PersistenceController perController = PersistenceController.getInstance();
     
@@ -134,11 +137,14 @@ public class Controller implements Observable {
     }
     
     
+    //Buscar cliente por ID
     public Client findClient(int id)
     {
        return perController.findClient(id);
     }
     
+    
+    //Comprobar credenciales - LOGIN
     public boolean loginUser(String nick, String pass)
     {
         
@@ -170,10 +176,12 @@ public class Controller implements Observable {
         
     }
     
+    
     public boolean validateEmail(String email)
     {
         return validateEmail(email, 0);
     }
+    
     
     //Acción 1 equivale a modificar
     public boolean validateEmail(String email, int action)
@@ -213,12 +221,15 @@ public class Controller implements Observable {
     }
     
     
+    
     public boolean validateNick(String nick)
     {
         return validateNick(nick, 0);
     }
     
+    
     //Acción 1 equivale a modificar
+    //Acción 0 equivale a creación
     public boolean validateNick(String nick, int action)
     {
 
@@ -257,6 +268,7 @@ public class Controller implements Observable {
     }
     
     
+    //Bloquear cliente
     public void lockClient(Client client)
     {
         client.setBloqueado(true);
@@ -267,6 +279,8 @@ public class Controller implements Observable {
         
     }
     
+    
+    //Desbloquear cliente
     public void unlockClient(Client client)
     {
         client.setBloqueado(false);
@@ -278,6 +292,38 @@ public class Controller implements Observable {
     }
     
 
+    
+    
+    
+    public int processRequest(NetworkMessage request)
+    {
+        
+        switch(request.getType())
+        {
+            case NetworkMessage.LOGIN_REQUEST:
+                System.out.println("LOGIN");
+                if(loginUser(request.getUserNick(), request.getUserPassword()))
+                {
+                    return Status.LOGIN_OK;
+                }
+                return Status.LOGIN_BAD;
+                
+                
+               
+            
+            case NetworkMessage.REGISTER_REQUEST:
+                
+                break;
+            
+        }
+        
+        return 1;
+        
+    }
+    
+
+    
+    
     @Override
     public void addObserver(Observer obj) {
         observersList.add(obj);

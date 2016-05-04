@@ -5,10 +5,11 @@
  */
 package es.chatserver.server;
 
+import com.google.gson.Gson;
 import es.chatserver.server.messages.NetworkMessage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.Callable;
 
@@ -22,20 +23,23 @@ public class ClientThread implements Callable<Integer> {
     private boolean running;
     private final int uniqueID;
     private final Socket clientConexion;
-    private final ObjectOutputStream objOutput;
-    private final ObjectInputStream objInput;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
     
-    private NetworkMessage netMsg;
     
-    public ClientThread(Socket clientConexion,ObjectInputStream objInputStream, ObjectOutputStream objOutputStream, int id)
+    private NetworkMessage request;
+    private final Gson gson;
+    
+    public ClientThread(Socket clientConexion, DataInputStream dataInputStream, DataOutputStream dataOutputStream, int id)
     {
         this.uniqueID = id;
         this.clientConexion = clientConexion;
         this.running = true;
         
-        this.objInput = objInputStream;
-        this.objOutput = objOutputStream;
+        this.dataInputStream = dataInputStream;
+        this.dataOutputStream = dataOutputStream;
         
+        this.gson = new Gson();
 
         
     }
@@ -45,13 +49,13 @@ public class ClientThread implements Callable<Integer> {
     {
         this.running = false;
         
-        if(this.objInput != null)
+        if(this.dataInputStream != null)
         {
-           this.objInput.close(); 
+           this.dataInputStream.close(); 
         }
-        if(this.objOutput != null)
+        if(this.dataOutputStream != null)
         {
-           this.objOutput.close(); 
+           this.dataOutputStream.close(); 
         }
         
         
@@ -63,7 +67,9 @@ public class ClientThread implements Callable<Integer> {
         
         while(running)
         {
-            netMsg = (NetworkMessage) objInput.readObject();
+            String json = dataInputStream.readUTF();
+            request = gson.fromJson(json, NetworkMessage.class);
+            System.out.println(request.getUserNick());
         }
         
         

@@ -23,6 +23,7 @@ public class ServerRun {
         executorServer =  Executors.newSingleThreadExecutor();
         this.server = new Server(port);
         executorServer.submit(server);
+        
     }
     
     public void interrupt()

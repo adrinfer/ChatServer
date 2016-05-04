@@ -5,11 +5,10 @@
  */
 package es.chatserver.utils;
 
-import es.chatserver.server.messages.NetworkMessage;
+
 import java.text.SimpleDateFormat;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**

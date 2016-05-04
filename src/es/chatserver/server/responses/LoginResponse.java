@@ -3,16 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.chatserver.server.messages;
-
-
-import java.io.Serializable;
+package es.chatserver.server.responses;
 
 /**
  *
  * @author Practicas01
  */
+public class LoginResponse  {
 
-public class LoginMessage implements  Serializable {
+    
+   private final int loginStatus;
+    
+    public LoginResponse(int loginStatus)
+    {
+        this.loginStatus = loginStatus;
+    }
+    
+
     
 }
