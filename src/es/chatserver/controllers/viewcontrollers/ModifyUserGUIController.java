@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -153,6 +152,7 @@ public class ModifyUserGUIController implements Initializable {
                 hBoxEmail.setStyle("-fx-background-color: red; -fx-spacing: 10;");
                 lblValidEmail.setText("Email en uso o incorrecto");
             }
+            event.consume();
         });
 
     }

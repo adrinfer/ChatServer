@@ -6,17 +6,18 @@
 package chatserver;
 
 import es.chatserver.controllers.viewcontrollers.ServerGuiController;
-import es.chatserver.utils.Encrypt;
 import es.chatserver.views.Decorator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 
@@ -29,7 +30,7 @@ public class Main extends Application {
     //Atributos
     private BorderPane root;
     private Scene scene;
-    FXMLLoader loader;
+    private FXMLLoader loader;
     
     //Debe ser llamado después del "show" del stage principal
     private void setBindings()
@@ -72,6 +73,15 @@ public class Main extends Application {
         
         setPrimaryStage(stage);
         
+
+        //Close using the icon in taskbar
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+           
+            @Override
+            public void handle(WindowEvent we) {
+                System.exit(0);
+            }
+        });
 
         
         

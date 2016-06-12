@@ -7,7 +7,6 @@ package es.chatserver.controllers.viewcontrollers;
 
 
 import chatserver.Main;
-import es.chatserver.server.Server;
 import es.chatserver.server.ServerRun;
 import es.chatserver.controllers.persistence.PersistenceController;
 import es.chatserver.entities.TextMsg;
@@ -20,11 +19,8 @@ import java.awt.Rectangle;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -441,7 +437,12 @@ public class ServerGuiController implements Initializable, Observer {
                 count++;
             }
 
-            titledPaneUsersList.setText("Usuarios online: " + count);
+            
+            //titledPaneUsersList.setText("Usuarios online: " + count);
+            
+            final int finalCount = count;
+            
+            Platform.runLater(() -> titledPaneUsersList.setText("Usuarios online: " + finalCount));
             
         }
 
@@ -454,7 +455,9 @@ public class ServerGuiController implements Initializable, Observer {
         
         //El logicController se encarga de usar el posible filtro
         List<Client> clientList = logicController.getUsersList(txtTotalUserFilter.getText());
-        listViewTotalUserList.getItems().clear();
+        
+        Platform.runLater(() -> listViewTotalUserList.getItems().clear());
+        
         
         int count = 0;
         
@@ -472,7 +475,9 @@ public class ServerGuiController implements Initializable, Observer {
                 count++;
             }
             
-            titledPaneTotalUsersList.setText("Usuarios totales: " + count);
+            final int finalCount = count;
+            
+            Platform.runLater(() -> titledPaneUsersList.setText("Usuarios totales: " + finalCount));
             
         }
     }
@@ -498,8 +503,7 @@ public class ServerGuiController implements Initializable, Observer {
         scrollPaneMessageList.setVvalue(1);
         vBoxMessageList.getChildren().add(message.getMessage());
         
-
-        System.out.println("SCROLL: " + scrollPaneMessageList.getVvalue());
+        //System.out.println("SCROLL: " + scrollPaneMessageList.getVvalue());
         scrollPaneMessageList.setVvalue(1);
         
         
@@ -508,7 +512,7 @@ public class ServerGuiController implements Initializable, Observer {
     private void init()
     {
    
-        ServerRun a = new ServerRun(53013);
+        ServerRun a = new ServerRun(30000);
         
         btnStop.setOnAction((event) -> {
             System.out.println("APAGADO");

@@ -12,7 +12,7 @@ import es.chatserver.interfaces.Observable;
 import es.chatserver.interfaces.Observer;
 import es.chatserver.model.Client;
 import es.chatserver.server.messages.NetworkMessage;
-import es.chatserver.server.requests.LoginRequest;
+import es.chatserver.server.messages.requests.RequestMessage;
 import es.chatserver.utils.Status;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,6 +183,13 @@ public class Controller implements Observable {
     }
     
     
+    
+    public boolean validateNick(String nick)
+    {
+        return validateNick(nick, 0);
+    }
+    
+    
     //Acción 1 equivale a modificar
     public boolean validateEmail(String email, int action)
     {
@@ -199,19 +206,48 @@ public class Controller implements Observable {
         }
         
         
-        //Obtener lista de usuarios
+//        //Get user list
+//        List<Client> usersList = getUsersList();
+//        
+//        for(Client user: usersList)
+//        {
+//            if(user.getEmail().equals(email))
+//            {
+//                //Al modificar no queremos que nuestro propio email nos diga en uso
+//                if(action == 0) 
+//                {
+//                    inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
+//                }
+//                
+//                return false;
+//            }
+//        }
+        
+        if(!checkEmail(email))
+        {
+            //Al modificar no queremos que nuestro propio email nos diga en uso
+            if(action == 0)
+            {
+                inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    
+    public boolean checkEmail(String email)
+    {
+        
+        
+        //Get user list
         List<Client> usersList = getUsersList();
         
         for(Client user: usersList)
         {
             if(user.getEmail().equals(email))
-            {
-                //Al modificar no queremos que nuestro propio email nos diga en uso
-                if(action == 0) 
-                {
-                    inform(new TextMsg(email, TextMsg.EMAIL_IN_USE));
-                }
-                
+            {                
                 return false;
             }
         }
@@ -222,37 +258,43 @@ public class Controller implements Observable {
     
     
     
-    public boolean validateNick(String nick)
+    
+    
+    //Action 1 -> modify
+    //Action 0 -> creation
+    public boolean validateNick(String nick, int action)
     {
-        return validateNick(nick, 0);
+        
+        if(!checkNick(nick))
+        {
+            if(action == 0)
+            {
+                inform(new TextMsg(nick, TextMsg.NICK_IN_USE));
+            }
+            
+            return false;
+        }
+        
+        return true;
+        
     }
     
     
-    //Acción 1 equivale a modificar
-    //Acción 0 equivale a creación
-    public boolean validateNick(String nick, int action)
+    //Check nick status
+    public boolean checkNick(String nick)
     {
-
         //Obtener lista de usuarios
         List<Client> usersList = getUsersList();
         for(Client user: usersList)
         {
             if(user.getNick().equals(nick))
             {
-                //Acion 0 es creacion de usuario
-                //Si no es 0 no queremos que en la modificacion nos tome como usado
-                //nuestro propio nick
-                if(action == 0)
-                {
-                    inform(new TextMsg(nick, TextMsg.NICK_IN_USE));
-                }
                 return false;
                 
             }
         }
         
         return true;
-        
     }
     
     
@@ -294,13 +336,13 @@ public class Controller implements Observable {
 
     
     
-    
-    public int processRequest(NetworkMessage request)
+    //Process the client request
+    public int processRequest(RequestMessage request)
     {
         
-        switch(request.getType())
+        switch(request.getRequestType())
         {
-            case NetworkMessage.LOGIN_REQUEST:
+            case RequestMessage.LOGIN:
                 System.out.println("LOGIN");
                 if(loginUser(request.getUserNick(), request.getUserPassword()))
                 {
@@ -309,9 +351,41 @@ public class Controller implements Observable {
                 return Status.LOGIN_BAD;
                 
                 
-               
+            case RequestMessage.REGISTER:
+                
+                //TODO intentar registro
+                
+                //Check if can register
+                if(checkNick(request.getUserName()) && checkEmail(request.getUserEmail()))
+                {
+                    addUser(request.getUserName(),
+                            request.getUserNick(),
+                            request.getUserPassword(),
+                            request.getUserEmail());
+                    return Status.REGISTER_OK;
+                }
+                
+                //Check is both are wrong
+                if(!checkNick(request.getUserName()) && !checkEmail(request.getUserEmail()))
+                {
+                    return Status.USER_EMAIL_USED;
+                }
+                
+                //Check if the wrong field is nick
+                if(!checkNick(request.getUserName()))
+                {
+                    return Status.USER_NICK_USED;
+                }
+                
+                //Check if the wrong field is email
+                if(!checkEmail(request.getUserEmail()))
+                {
+                    return Status.EMAIL_ALREADY_USED;
+                }
+
+                
             
-            case NetworkMessage.REGISTER_REQUEST:
+            case RequestMessage.LOGOUT:
                 
                 break;
             

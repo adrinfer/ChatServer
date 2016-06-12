@@ -15,7 +15,6 @@ import chatserver.Main;
 import es.chatserver.resources.Images;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -94,8 +93,9 @@ public class Decorator extends AnchorPane {
                 //Cerrar cuando termine la animación
                 scaleTransitionClose.setOnFinished((e) -> {
 
-
-                    Platform.exit(); //Cerrar toda la aplicación
+                    stage.close();
+                    System.exit(0);
+                    //Platform.exit(); //Cerrar toda la aplicación
 
                 });
                 

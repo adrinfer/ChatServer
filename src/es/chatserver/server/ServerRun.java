@@ -30,7 +30,7 @@ public class ServerRun {
     {
         
         this.server.interrupt();
-        this.executorServer.shutdownNow();
+        this.executorServer.shutdown();
         
     }
     

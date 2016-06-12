@@ -8,8 +8,10 @@ package es.chatserver.server;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import es.chatserver.logic.Controller;
-import es.chatserver.server.messages.NetworkMessage;
+import es.chatserver.server.messages.adapters.RequestMessageTypeAdapter;
+import es.chatserver.server.messages.requests.RequestMessage;
 import es.chatserver.utils.Status;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,12 +19,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 
 /**
  *
@@ -57,7 +61,7 @@ public class Server implements Callable {
     private final Controller logicController;
     
     //Primer mensaje recibido del cliente
-    private NetworkMessage firstRequest;
+    private RequestMessage firstRequest;
     
     //Gson para leer y escribir 
     private final Gson gson;
@@ -73,7 +77,13 @@ public class Server implements Callable {
         this.executorThread = Executors.newFixedThreadPool(MAX_CONECTIONS);
         this.futureList = new ArrayList();
         this.serverRunning = true;
-        this.gson = new Gson();
+        
+        final GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(RequestMessage.class, new RequestMessageTypeAdapter());
+        gsonBuilder.setPrettyPrinting();
+        
+        this.gson = gsonBuilder.create();
+        
                 
     }
     
@@ -90,13 +100,14 @@ public class Server implements Callable {
                 //Esperar nueva conexión
                 System.out.println("ESPERANDO CONEXIÓN");
                 clientConexion = serverSocket.accept();
+                System.out.println("ACEPTADA");
                 
                 if(!serverRunning)
                 {
                     break;
                 }
                 
-                dataInputStream = new DataInputStream( clientConexion.getInputStream());
+                dataInputStream = new DataInputStream(clientConexion.getInputStream());
                 dataOutputStream = new DataOutputStream(clientConexion.getOutputStream());
                 
                 attendRequest();
@@ -133,33 +144,126 @@ public class Server implements Callable {
     //Atender nuevas peticiones
     private void attendRequest()
     {
-        try 
+        try
         {
-   
+            
             String json = dataInputStream.readUTF();
-            firstRequest = gson.fromJson(json, NetworkMessage.class);
             
-            System.out.println("NET: " + firstRequest.getType());
             
-            //La primera petición debería ser registro y/o login
-            int result = logicController.processRequest(firstRequest);
-            
-            if(result == Status.LOGIN_OK)
+            //If is checking status doing nothing
+            if(!Objects.equals(json, "checkStatus"))
             {
+                System.out.println("MENSAJE LLEGADO - > \n" + json);
                 
-                ClientThread newClient = new ClientThread(clientConexion, dataInputStream, dataOutputStream, ++uniqueID);
-            
-                clientList.add(newClient); //Guardar cliente
+                try
+                {
+                    firstRequest = gson.fromJson(json, RequestMessage.class);
+                }
+                catch(Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+                
+                
 
-                futureList.add(executorThread.submit(newClient));
+                //La primera petición debería ser registro y/o login SIEMPRE
+                Platform.runLater(() -> {
+                    int result = logicController.processRequest(firstRequest);
+                    
+                    //Login successfully
+                    if(result == Status.LOGIN_OK)
+                    {
+
+                        System.out.println("LOGIN LADHNLAKSDHNLASHDLASD");
+
+                        ClientThread newClient = new ClientThread(clientConexion, dataInputStream, dataOutputStream, ++uniqueID);
+
+                        clientList.add(newClient); //Guardar cliente
+
+                        futureList.add(executorThread.submit(newClient));
+
+                        try {
+                            dataOutputStream.writeInt(Status.LOGIN_OK);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+
+                    }
+
+                    //Registered unsuccessfully
+                    if(result == Status.LOGIN_BAD)
+                    {
+                        try {
+                            dataOutputStream.writeInt(Status.LOGIN_BAD);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+
+
+                    //Registered successfully
+                    if(result == Status.REGISTER_OK)
+                    {
+                        try {
+                            dataOutputStream.writeInt(Status.REGISTER_OK);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                    //Nick in use
+                    if(result == Status.USER_NICK_USED)
+                    {
+                        try {
+                            dataOutputStream.writeInt(Status.USER_NICK_USED);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                    //Email in use
+                    if(result == Status.EMAIL_ALREADY_USED)
+                    {
+                        try {
+                            dataOutputStream.writeInt(Status.EMAIL_ALREADY_USED);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                    //Email in use
+                    if(result == Status.USER_EMAIL_USED)
+                    {
+                        try {
+                            dataOutputStream.writeInt(Status.USER_EMAIL_USED);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    
+                });
                 
+                //
+
+                
+
             }
+            
+            
             
             //TODO lanzar thread con executeService para clientes
             
             
-        } 
-        catch (IOException ex) 
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,7 +271,7 @@ public class Server implements Callable {
     }
     
     
-    
+
     
     
     public void interrupt()

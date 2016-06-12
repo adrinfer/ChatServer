@@ -69,7 +69,7 @@ public class ClientThread implements Callable<Integer> {
         {
             String json = dataInputStream.readUTF();
             request = gson.fromJson(json, NetworkMessage.class);
-            System.out.println(request.getUserNick());
+            //System.out.println(request.getUserNick());
         }
         
         
