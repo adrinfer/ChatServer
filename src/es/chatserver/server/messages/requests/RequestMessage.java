@@ -25,6 +25,7 @@ public class RequestMessage implements NetworkMessage {
     public final static int LOGIN = 0;
     public final static int REGISTER = 1;
     public final static int LOGOUT = 2;
+    public final static int GET_DATA = 3;
     
     
     //Constructor

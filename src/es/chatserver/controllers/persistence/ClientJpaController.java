@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import es.chatserver.model.Incidencias;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class ClientJpaController implements Serializable {
 
@@ -152,7 +153,8 @@ public class ClientJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = client.getId();
@@ -177,7 +179,8 @@ public class ClientJpaController implements Serializable {
             try {
                 client = em.getReference(Client.class, id);
                 client.getId();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The client with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
@@ -249,6 +252,19 @@ public class ClientJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public Client findClient(String nick)
+    {
+        for(Client c: findClientEntities())
+        {
+            if(Objects.equals(c.getNick().toLowerCase(), nick.toLowerCase()))
+            {
+                return c;
+            }
+        }
+        
+        return null;
     }
     
 }

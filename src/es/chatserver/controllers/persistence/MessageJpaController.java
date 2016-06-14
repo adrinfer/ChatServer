@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class MessageJpaController implements Serializable {
 
@@ -77,7 +77,8 @@ public class MessageJpaController implements Serializable {
                 clientConverNew = em.merge(clientConverNew);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = message.getId();
@@ -102,7 +103,8 @@ public class MessageJpaController implements Serializable {
             try {
                 message = em.getReference(Message.class, id);
                 message.getId();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The message with id " + id + " no longer exists.", enfe);
             }
             ClientConver clientConver = message.getClientConver();
@@ -163,6 +165,16 @@ public class MessageJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Message> findMessagesFilterByConver(int converid)
+    {
+        EntityManager em = getEntityManager();
+        //String query = "SELECT NEW CustomObject(i.firstProperty, i.secondProperty) FROM ObjectName i WHERE i.id=10";
+        Query query = em.createNamedQuery("Message.findByConverId");
+        query.setParameter("converid", converid);
+        
+        return query.getResultList();
     }
     
 }

@@ -22,7 +22,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class ConverJpaController implements Serializable {
 
@@ -107,7 +107,8 @@ public class ConverJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = conver.getId();
@@ -132,7 +133,8 @@ public class ConverJpaController implements Serializable {
             try {
                 conver = em.getReference(Conver.class, id);
                 conver.getId();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The conver with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;

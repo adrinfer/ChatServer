@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 @Entity
 @Table(name = "message")
@@ -35,7 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Message.findById", query = "SELECT m FROM Message m WHERE m.id = :id"),
     @NamedQuery(name = "Message.findByDate", query = "SELECT m FROM Message m WHERE m.date = :date"),
     @NamedQuery(name = "Message.findByText", query = "SELECT m FROM Message m WHERE m.text = :text"),
-    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type")})
+    @NamedQuery(name = "Message.findByType", query = "SELECT m FROM Message m WHERE m.type = :type"),
+    @NamedQuery(name = "Message.findByClientNick", query = "SELECT m FROM Message m WHERE m.clientnick = :clientnick"),
+    @NamedQuery(name = "Message.findByConverId", query = "SELECT m FROM Message m WHERE m.clientConver.conver.id = :converid")})
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,12 +49,12 @@ public class Message implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    
     @Column(name = "text")
     private String text;
-       
     @Column(name = "type")
     private Integer type;
+    @Column(name = "clientnick")
+    private String clientnick;
     @JoinColumns({
         @JoinColumn(name = "clientid", referencedColumnName = "clientid"),
         @JoinColumn(name = "converid", referencedColumnName = "converid")})
@@ -60,11 +62,6 @@ public class Message implements Serializable {
     private ClientConver clientConver;
 
     public Message() {
-    }
-    
-    public Message(String text)
-    {
-        this.text = text;
     }
 
     public Message(Integer id) {
@@ -103,6 +100,14 @@ public class Message implements Serializable {
         this.type = type;
     }
 
+    public String getClientNick() {
+        return clientnick;
+    }
+
+    public void setClientNick(String clientNick) {
+        this.clientnick = clientNick;
+    }
+
     public ClientConver getClientConver() {
         return clientConver;
     }
@@ -135,9 +140,5 @@ public class Message implements Serializable {
     public String toString() {
         return "es.chatserver.model.Message[ id=" + id + " ]";
     }
-    
-    
-    
-    
     
 }

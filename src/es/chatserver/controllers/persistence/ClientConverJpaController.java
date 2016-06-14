@@ -25,7 +25,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Practicas01
+ * @author adrinfer
  */
 public class ClientConverJpaController implements Serializable {
 
@@ -86,7 +86,8 @@ public class ClientConverJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             if (findClientConver(clientConver.getClientConverPK()) != null) {
                 throw new PreexistingEntityException("ClientConver " + clientConver + " already exists.", ex);
             }
@@ -162,7 +163,8 @@ public class ClientConverJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 ClientConverPK id = clientConver.getClientConverPK();
@@ -187,7 +189,8 @@ public class ClientConverJpaController implements Serializable {
             try {
                 clientConver = em.getReference(ClientConver.class, id);
                 clientConver.getClientConverPK();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The clientConver with id " + id + " no longer exists.", enfe);
             }
             Client client = clientConver.getClient();

@@ -211,26 +211,46 @@ public class PersistenceController {
     // ----- FINDs ----- //
     
         // ----- find by id ----- //
-    
     public Client findClient(int id)
     { 
         return clientJpa.findClient(id);
     }
     
+    
+        // ----- find by nickName ----- //
+    public Client findClient(String nick)
+    {
+        return clientJpa.findClient(nick);
+    }
+    
+    
     public Conver findConver(int id)
     {
         return converJpa.findConver(id);
     }
+        
     
     public ClientConver findClientConver(ClientConverPK id)
     {
         return clientConverJpa.findClientConver(id);
     }
     
+    public List<ClientConver> findClientConver()
+    {
+        return clientConverJpa.findClientConverEntities();
+    }
+    
+    
     public Message findMessage(int id)
     {
         return msgJpa.findMessage(id);
     }
+    
+    public List<Message> findMessagesFilterByConver(int converId)
+    {
+        return msgJpa.findMessagesFilterByConver(converId);
+    }
+    
     
         // ----- find all entities ----- //
     

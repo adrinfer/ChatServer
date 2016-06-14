@@ -14,6 +14,7 @@ import es.chatserver.interfaces.Observer;
 import es.chatserver.logic.Controller;
 import es.chatserver.model.Client;
 import es.chatserver.entities.UserLabel;
+import es.chatserver.model.Conver;
 import es.chatserver.utils.Utils;
 import java.awt.Rectangle;
 import java.net.URL;
@@ -421,19 +422,26 @@ public class ServerGuiController implements Initializable, Observer {
         
         //El logicController se encarga de usar el posible filtro
         List<Client> clientList = logicController.getUsersList(txtUserFilter.getText());
-        listViewUserList.getItems().clear();
+        
+        Platform.runLater(() -> listViewUserList.getItems().clear());
+        
         int count = 0;
+        
         if(clientList.isEmpty())
         {
-            listViewUserList.getItems().add("       Sin resultados");
-            titledPaneUsersList.setText("Usuarios online: " + count);
+            Platform.runLater(() -> {
+                listViewUserList.getItems().add("       Sin resultados");
+                titledPaneUsersList.setText("Usuarios online: " + 0);
+            
+            });
+            
             
         }
         else
         {
             for(Client client: clientList)
             {
-                listViewUserList.getItems().add(new UserLabel(client, listViewUserList));
+                Platform.runLater(() -> listViewUserList.getItems().add(new UserLabel(client, listViewUserList)));
                 count++;
             }
 
@@ -464,20 +472,24 @@ public class ServerGuiController implements Initializable, Observer {
         
         if(clientList.isEmpty())
         {
-            listViewTotalUserList.getItems().add("      Sin resultados");
-            titledPaneTotalUsersList.setText("Usuarios totales: " + count);
+            Platform.runLater(() -> {
+                listViewTotalUserList.getItems().add("      Sin resultados");
+                titledPaneTotalUsersList.setText("Usuarios totales: " + 0);
+            
+            });
+            
         }
         else
         {
             for(Client client: clientList)
             {
-                listViewTotalUserList.getItems().add(new UserLabel(client, listViewTotalUserList));
+                Platform.runLater(() -> listViewTotalUserList.getItems().add(new UserLabel(client, listViewTotalUserList)));
                 count++;
             }
             
             final int finalCount = count;
             
-            Platform.runLater(() -> titledPaneUsersList.setText("Usuarios totales: " + finalCount));
+            Platform.runLater(() -> titledPaneTotalUsersList.setText("Usuarios totales: " + finalCount));
             
         }
     }
@@ -513,6 +525,9 @@ public class ServerGuiController implements Initializable, Observer {
     {
    
         ServerRun a = new ServerRun(30000);
+        
+        
+        
         
         btnStop.setOnAction((event) -> {
             System.out.println("APAGADO");

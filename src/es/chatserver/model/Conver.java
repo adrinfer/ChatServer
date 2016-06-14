@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Conver.findByDate", query = "SELECT c FROM Conver c WHERE c.date = :date")})
 public class Conver implements Serializable {
 
+    @Column(name = "name")
+    private String name;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,10 +53,23 @@ public class Conver implements Serializable {
     private Collection<ClientConver> clientConverCollection;
 
     public Conver() {
+        this.name = "Conversacion";
     }
 
     public Conver(Integer id) {
         this.id = id;
+        this.date = new Date();
+    }
+    
+    public Conver(String name) {
+        this.name = name;
+        this.date = new Date();
+    }
+    
+    public Conver(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+        this.date = new Date();
     }
 
     public Integer getId() {
@@ -71,6 +87,17 @@ public class Conver implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public String getName()
+    {
+        return this.name;
+    }
+    
 
     @XmlTransient
     public Collection<ClientConver> getClientConverCollection() {

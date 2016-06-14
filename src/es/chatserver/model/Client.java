@@ -41,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Client.findByNombre", query = "SELECT c FROM Client c WHERE c.nombre = :nombre")})
 public class Client implements Serializable {
 
+    @Column(name = "bloqueado")
+    private Boolean bloqueado;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,8 +67,6 @@ public class Client implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     
-    @Column(name = "bloqueado")
-    private boolean bloqueado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<ClientConver> clientConverCollection;
@@ -145,15 +146,6 @@ public class Client implements Serializable {
         this.nombre = nombre;
     }
 
-    public boolean getBloqueado()
-    {
-        return bloqueado;
-    }
-    
-    public void setBloqueado(boolean bloqueado)
-    {
-        this.bloqueado = bloqueado;
-    }
     
     @XmlTransient
     public Collection<ClientConver> getClientConverCollection() {
@@ -196,6 +188,14 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "es.chatserver.model.Client[ id=" + id + " ]";
+    }
+
+    public Boolean getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(Boolean bloqueado) {
+        this.bloqueado = bloqueado;
     }
     
 }

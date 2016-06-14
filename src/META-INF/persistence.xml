@@ -3,10 +3,10 @@
   <persistence-unit name="persistence" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>es.chatserver.model.Conver</class>
-    <class>es.chatserver.model.Message</class>
     <class>es.chatserver.model.Client</class>
     <class>es.chatserver.model.ClientConver</class>
     <class>es.chatserver.model.Incidencias</class>
+    <class>es.chatserver.model.Message</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/ChatServer"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

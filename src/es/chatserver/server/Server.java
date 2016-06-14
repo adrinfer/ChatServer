@@ -77,13 +77,7 @@ public class Server implements Callable {
         this.executorThread = Executors.newFixedThreadPool(MAX_CONECTIONS);
         this.futureList = new ArrayList();
         this.serverRunning = true;
-        
-        final GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(RequestMessage.class, new RequestMessageTypeAdapter());
-        gsonBuilder.setPrettyPrinting();
-        
-        this.gson = gsonBuilder.create();
-        
+        this.gson = logicController.getGson();
                 
     }
     
@@ -142,7 +136,7 @@ public class Server implements Callable {
     
     
     //Atender nuevas peticiones
-    private void attendRequest()
+    private void attendRequest() 
     {
         try
         {
@@ -174,7 +168,7 @@ public class Server implements Callable {
                     if(result == Status.LOGIN_OK)
                     {
 
-                        System.out.println("LOGIN LADHNLAKSDHNLASHDLASD");
+                        System.out.println("LOGIN REALIZADO - - - ");
 
                         ClientThread newClient = new ClientThread(clientConexion, dataInputStream, dataOutputStream, ++uniqueID);
 
@@ -191,16 +185,35 @@ public class Server implements Callable {
 
 
                     }
+                    
+                    //Registered unsuccessfully
+                    if(result == Status.USER_LOCK)
+                    {
+                        
+                        try 
+                        {
+                            dataOutputStream.writeInt(Status.USER_LOCK);
+                        }
+                        catch (IOException ex) {
+                            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+
+                    }
+                    
 
                     //Registered unsuccessfully
                     if(result == Status.LOGIN_BAD)
                     {
-                        try {
+                        
+                        try 
+                        {
                             dataOutputStream.writeInt(Status.LOGIN_BAD);
                         }
                         catch (IOException ex) {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        
 
                     }
 
@@ -208,10 +221,12 @@ public class Server implements Callable {
                     //Registered successfully
                     if(result == Status.REGISTER_OK)
                     {
-                        try {
+                        try 
+                        {
                             dataOutputStream.writeInt(Status.REGISTER_OK);
                         }
-                        catch (IOException ex) {
+                        catch (IOException ex) 
+                        {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -219,10 +234,12 @@ public class Server implements Callable {
                     //Nick in use
                     if(result == Status.USER_NICK_USED)
                     {
-                        try {
+                        try 
+                        {
                             dataOutputStream.writeInt(Status.USER_NICK_USED);
                         }
-                        catch (IOException ex) {
+                        catch (IOException ex) 
+                        {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -230,10 +247,12 @@ public class Server implements Callable {
                     //Email in use
                     if(result == Status.EMAIL_ALREADY_USED)
                     {
-                        try {
+                        try 
+                        {
                             dataOutputStream.writeInt(Status.EMAIL_ALREADY_USED);
                         }
-                        catch (IOException ex) {
+                        catch (IOException ex) 
+                        {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -241,10 +260,12 @@ public class Server implements Callable {
                     //Email in use
                     if(result == Status.USER_EMAIL_USED)
                     {
-                        try {
+                        try 
+                        {
                             dataOutputStream.writeInt(Status.USER_EMAIL_USED);
                         }
-                        catch (IOException ex) {
+                        catch (IOException ex) 
+                        {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
